@@ -5,4 +5,6 @@
     <string name="comunicados">Comunicados</string>
     <string name="cadastre_se">Cadastre-se</string>
     <string name="ok">Ok</string>
+    <string name="msg_required_login">O login deve ser informado.</string>
+    <string name="msg_required_password">A senha deve ser informada com 6 caracteres.</string>
 </resources>

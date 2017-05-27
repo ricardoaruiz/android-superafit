@@ -7,10 +7,8 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,8 +16,8 @@ import java.util.List;
 
 import superafit.rar.com.br.superafit.R;
 import superafit.rar.com.br.superafit.adapter.FragmetAdapter;
-import superafit.rar.com.br.superafit.ui.fragment.ComunicadosFragment;
-import superafit.rar.com.br.superafit.ui.fragment.HorariosFragment;
+import superafit.rar.com.br.superafit.ui.fragment.MessagesFragment;
+import superafit.rar.com.br.superafit.ui.fragment.SchedulesFragment;
 import superafit.rar.com.br.superafit.ui.fragment.WodFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -65,8 +63,8 @@ public class MainActivity extends AppCompatActivity {
     private List<Fragment> getFragments() {
         List<Fragment> fragments = new ArrayList<>();
         fragments.add(WodFragment.getInstance());
-        fragments.add(HorariosFragment.getInstance());
-        fragments.add(ComunicadosFragment.getInstance());
+        fragments.add(SchedulesFragment.getInstance());
+        fragments.add(MessagesFragment.getInstance());
         return fragments;
     }
 }

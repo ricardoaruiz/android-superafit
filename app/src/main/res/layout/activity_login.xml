@@ -46,7 +46,7 @@
         android:layout_marginTop="30dp"/>
 
     <EditText
-        android:id="@+id/login_activity_edit_senha"
+        android:id="@+id/login_activity_edit_password"
         style="@android:style/Widget.Material.EditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -13,15 +13,15 @@ import superafit.rar.com.br.superafit.R;
  * Created by ralmendro on 5/19/17.
  */
 
-public class ComunicadosFragment extends Fragment {
+public class MessagesFragment extends Fragment {
 
-    public static ComunicadosFragment getInstance() {
-        return new ComunicadosFragment();
+    public static MessagesFragment getInstance() {
+        return new MessagesFragment();
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_comunicados, container, false);
+        return inflater.inflate(R.layout.fragment_messages, container, false);
     }
 }
