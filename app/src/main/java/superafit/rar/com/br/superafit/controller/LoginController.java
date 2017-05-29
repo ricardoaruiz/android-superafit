@@ -9,7 +9,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import superafit.rar.com.br.superafit.R;
-import superafit.rar.com.br.superafit.event.LoginSuccessEvent;
+import superafit.rar.com.br.superafit.event.LoginFailureEvent;
+import superafit.rar.com.br.superafit.event.LoginResponseEvent;
 import superafit.rar.com.br.superafit.exception.InvalidLoginException;
 import superafit.rar.com.br.superafit.model.User;
 import superafit.rar.com.br.superafit.service.RetrofitFactory;
@@ -24,15 +25,16 @@ public class LoginController {
 
     private Context context;
 
-    private RetrofitFactory serviceFactory;
-
     public LoginController(Context context) {
         this.context = context;
-        this.serviceFactory = new RetrofitFactory();
     }
 
     public void doLogin(User user) {
+        validateLogin(user);
+        callLoginApi(user);
+    }
 
+    private void validateLogin(User user) {
         if(!user.isUserLoginValid()) {
 
             StringBuilder msgError = new StringBuilder();
@@ -48,30 +50,34 @@ public class LoginController {
             }
 
             throw new InvalidLoginException(msgError.toString());
-
-        } else {
-
-            LoginRequest request = new LoginRequest();
-            request.setLogin(user.getLogin());
-            request.setPassword(user.getPassword());
-
-            Call<LoginResponse> loginResponseCall = serviceFactory.getLoginService().doLogin(request);
-
-            loginResponseCall.enqueue(new Callback<LoginResponse>() {
-                @Override
-                public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                    Log.i("Login", "onResponse: sucesso");
-                    EventBus.getDefault().post(new LoginSuccessEvent(response.body()));
-                }
-
-                @Override
-                public void onFailure(Call<LoginResponse> call, Throwable t) {
-                    Log.i("Login", "onResponse: erro" + t.getMessage());
-                }
-            });
-
         }
+    }
 
+    private void callLoginApi(User user) {
+
+        Call<LoginResponse> loginResponseCall = RetrofitFactory.getInstance().getLoginService().doLogin(
+                getLoginRequest(user));
+
+        loginResponseCall.enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                Log.i("doLogin", "onResponse: sucesso");
+                EventBus.getDefault().post(new LoginResponseEvent(response.code(), response.body()));
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                Log.e("doLogin", "onFailure: erro" + t.getMessage());
+                EventBus.getDefault().post(new LoginFailureEvent());
+            }
+        });
+    }
+
+    private LoginRequest getLoginRequest(User user) {
+        LoginRequest request = new LoginRequest();
+        request.setLogin(user.getLogin());
+        request.setPassword(user.getPassword());
+        return request;
     }
 
 }

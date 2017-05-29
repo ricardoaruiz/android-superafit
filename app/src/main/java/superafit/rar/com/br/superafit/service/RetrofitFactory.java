@@ -11,9 +11,11 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 
 public class RetrofitFactory {
 
+    private static RetrofitFactory instance;
+
     private Retrofit retrofit;
 
-    public RetrofitFactory() {
+    private RetrofitFactory() {
 
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -22,11 +24,18 @@ public class RetrofitFactory {
         client.addInterceptor(interceptor);
 
         this.retrofit = new Retrofit.Builder()
-                .baseUrl("https://private-60fce-superafit.apiary-mock.com/api/")
+                .baseUrl(ServiceConstants.API_BASE_URL)
                 .addConverterFactory(JacksonConverterFactory.create())
                 .client(client.build())
                 .build();
 
+    }
+
+    public static RetrofitFactory getInstance() {
+        if(instance == null) {
+            instance = new RetrofitFactory();
+        }
+        return instance;
     }
 
     public LoginService getLoginService() {

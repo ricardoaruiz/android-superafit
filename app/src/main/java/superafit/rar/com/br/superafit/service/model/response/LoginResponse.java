@@ -6,23 +6,13 @@ package superafit.rar.com.br.superafit.service.model.response;
 
 public class LoginResponse {
 
-    private Integer code;
+    private String userId;
 
-    private String message;
-
-    public Integer getCode() {
-        return code;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setCode(Integer code) {
-        this.code = code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

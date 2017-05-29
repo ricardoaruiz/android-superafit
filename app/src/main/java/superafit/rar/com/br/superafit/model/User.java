@@ -1,10 +1,16 @@
 package superafit.rar.com.br.superafit.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import java.io.Serializable;
+
 /**
  * Created by ralmendro on 27/05/17.
  */
 
-public class User {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class User implements Serializable {
 
     public static final int PASSWORD_LENGTH = 6;
 
@@ -13,6 +19,9 @@ public class User {
     private String login;
 
     private String password;
+
+    public User() {
+    }
 
     public User(String login, String password) {
         this.login = login;
