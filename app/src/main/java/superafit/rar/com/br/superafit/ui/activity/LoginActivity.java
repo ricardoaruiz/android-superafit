@@ -10,7 +10,6 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -46,32 +45,16 @@ public class LoginActivity extends FullscreenActivity {
         Button btnOk = (Button) findViewById(R.id.login_activity_btn_login);
         btnOk.setOnClickListener(btnOkClick);
 
+        Button btnSignup = (Button) findViewById(R.id.login_activity_btn_signup);
+        btnSignup.setOnClickListener(btnSignupClick);
+
         editLogin = (EditText) findViewById(R.id.login_activity_edit_login);
-        editLogin.addTextChangedListener(getWatcher(15));
+        editLogin.addTextChangedListener(UIUtil.getWatcher(this, 15));
 
         editPassword = (EditText) findViewById(R.id.login_activity_edit_password);
-        editPassword.addTextChangedListener(getWatcher(6));
+        editPassword.addTextChangedListener(UIUtil.getWatcher(this, 6));
 
         EventBus.getDefault().register(this);
-    }
-
-    @NonNull
-    private TextWatcher getWatcher(final int length) {
-        return new TextWatcher() {
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) { /* Nothing */ }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length() == length) {
-                    UIUtil.hideKeyboard(LoginActivity.this);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) { /* Nothing */ }
-        };
     }
 
     /**
@@ -81,20 +64,13 @@ public class LoginActivity extends FullscreenActivity {
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLoginResponseEvent(LoginResponseEvent event) {
+        User user = getUser();
+        user.setId(event.getLoginResponse().getUserId());
+        loginRepository.login(user);
 
-        if(event.getHttpCode() == HttpURLConnection.HTTP_UNAUTHORIZED) {
-            Snackbar.make(editLogin, R.string.msg_invalid_login, Snackbar.LENGTH_LONG).show();
-        } else {
-            User user = getUser();
-            user.setId(event.getLoginResponse().getUserId());
-            loginRepository.login(user);
-
-            final Intent mainActivity = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(mainActivity);
-            finish();
-        }
-
-        terminateProgressDialog();
+        final Intent mainActivity = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(mainActivity);
+        finish();
     }
 
     /**
@@ -105,7 +81,11 @@ public class LoginActivity extends FullscreenActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLoginFailureEvent(LoginFailureEvent event) {
         terminateProgressDialog();
-        Snackbar.make(editLogin, R.string.msg_failed_login, Snackbar.LENGTH_LONG).show();
+        if(event.getMessage() != null) {
+            Snackbar.make(editLogin, R.string.msg_invalid_login, Snackbar.LENGTH_LONG).show();
+        } else {
+            Snackbar.make(editLogin, R.string.msg_failed_login, Snackbar.LENGTH_LONG).show();
+        }
     }
 
     private Button.OnClickListener btnOkClick = new View.OnClickListener() {
@@ -121,6 +101,14 @@ public class LoginActivity extends FullscreenActivity {
         }
     };
 
+    private Button.OnClickListener btnSignupClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent signupActivity = new Intent(LoginActivity.this, SignupActivity.class);
+            startActivity(signupActivity);
+        }
+    };
+
     @NonNull
     private User getUser() {
         return new User(editLogin.getText().toString(),
@@ -128,12 +116,18 @@ public class LoginActivity extends FullscreenActivity {
     }
 
     private void initProgressDialog() {
-        progressDialog = ProgressDialog.show(this, getString(R.string.processando), getString(R.string.login), true, false);
+        progressDialog = ProgressDialog.show(this, getString(R.string.processing), getString(R.string.login), true, false);
     }
 
     private void terminateProgressDialog() {
-        if (progressDialog.isShowing()) {
+        if (progressDialog != null && progressDialog.isShowing()) {
             progressDialog.dismiss();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        terminateProgressDialog();
     }
 }

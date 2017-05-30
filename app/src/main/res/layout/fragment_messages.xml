@@ -7,7 +7,7 @@
         android:id="@+id/txtHorarios"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/comunicados"
+        android:text="@string/messages"
         android:layout_centerInParent="true"/>
 
 </RelativeLayout>

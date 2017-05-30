@@ -13,7 +13,7 @@ import superafit.rar.com.br.superafit.event.LoginFailureEvent;
 import superafit.rar.com.br.superafit.event.LoginResponseEvent;
 import superafit.rar.com.br.superafit.exception.InvalidLoginException;
 import superafit.rar.com.br.superafit.model.User;
-import superafit.rar.com.br.superafit.service.RetrofitFactory;
+import superafit.rar.com.br.superafit.service.ServiceFactory;
 import superafit.rar.com.br.superafit.service.model.request.LoginRequest;
 import superafit.rar.com.br.superafit.service.model.response.LoginResponse;
 
@@ -55,14 +55,19 @@ public class LoginController {
 
     private void callLoginApi(User user) {
 
-        Call<LoginResponse> loginResponseCall = RetrofitFactory.getInstance().getLoginService().doLogin(
+        Call<LoginResponse> loginResponseCall = ServiceFactory.getInstance().getLoginService().doLogin(
                 getLoginRequest(user));
 
         loginResponseCall.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                Log.i("doLogin", "onResponse: sucesso");
-                EventBus.getDefault().post(new LoginResponseEvent(response.code(), response.body()));
+                if(response.isSuccessful()) {
+                    Log.i("doLogin", "onResponse: sucesso");
+                    EventBus.getDefault().post(new LoginResponseEvent(response.body()));
+                } else {
+                    Log.e("doLogin", "onResponse: erro");
+                    EventBus.getDefault().post(new LoginFailureEvent(context.getString(R.string.msg_invalid_login)));
+                }
             }
 
             @Override

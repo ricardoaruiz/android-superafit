@@ -7,7 +7,7 @@
         android:id="@+id/txtHorarios"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/horarios"
+        android:text="@string/schedules"
         android:layout_centerInParent="true"/>
 
 </RelativeLayout>

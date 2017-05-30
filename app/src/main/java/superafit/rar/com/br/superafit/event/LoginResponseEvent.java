@@ -8,12 +8,9 @@ import superafit.rar.com.br.superafit.service.model.response.LoginResponse;
 
 public class LoginResponseEvent {
 
-    private int httpCode;
-
     private LoginResponse loginResponse;
 
-    public LoginResponseEvent(int httpCode, LoginResponse loginResponse) {
-        this.httpCode = httpCode;
+    public LoginResponseEvent(LoginResponse loginResponse) {
         this.loginResponse = loginResponse;
     }
 
@@ -21,7 +18,4 @@ public class LoginResponseEvent {
         return loginResponse;
     }
 
-    public int getHttpCode() {
-        return httpCode;
-    }
 }

@@ -20,6 +20,8 @@ public class User implements Serializable {
 
     private String password;
 
+    private String confirmPassword;
+
     public User() {
     }
 
@@ -52,12 +54,30 @@ public class User implements Serializable {
         this.password = password;
     }
 
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
+    }
+
     public boolean isLoginValid() {
-        return !this.login.isEmpty();
+        return this.login != null && !this.login.isEmpty();
     }
 
     public boolean isPasswordValid() {
-        return !this.password.isEmpty() && this.password.length() == PASSWORD_LENGTH;
+        return this.password != null && !this.password.isEmpty()
+                && this.password.length() == PASSWORD_LENGTH;
+    }
+
+    public boolean isConfirmPasswordValid() {
+        return this.confirmPassword != null && !confirmPassword.isEmpty()
+                && confirmPassword.length() == PASSWORD_LENGTH;
+    }
+
+    public boolean isPasswordsAreEquals() {
+        return this.password.equals(this.confirmPassword);
     }
 
     public boolean isUserLoginValid() {

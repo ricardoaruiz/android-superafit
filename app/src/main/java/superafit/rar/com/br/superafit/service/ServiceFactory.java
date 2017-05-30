@@ -4,18 +4,19 @@ import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
+import superafit.rar.com.br.superafit.service.model.UserService;
 
 /**
  * Created by ralmendro on 27/05/17.
  */
 
-public class RetrofitFactory {
+public class ServiceFactory {
 
-    private static RetrofitFactory instance;
+    private static ServiceFactory instance;
 
     private Retrofit retrofit;
 
-    private RetrofitFactory() {
+    private ServiceFactory() {
 
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -31,14 +32,22 @@ public class RetrofitFactory {
 
     }
 
-    public static RetrofitFactory getInstance() {
+    public static ServiceFactory getInstance() {
         if(instance == null) {
-            instance = new RetrofitFactory();
+            instance = new ServiceFactory();
         }
         return instance;
     }
 
+    public Retrofit getRetrofit() {
+        return retrofit;
+    }
+
     public LoginService getLoginService() {
         return this.retrofit.create(LoginService.class);
+    }
+
+    public UserService getUserService() {
+        return this.retrofit.create(UserService.class);
     }
 }

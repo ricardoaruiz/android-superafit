@@ -9,7 +9,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,7 +16,6 @@ import java.util.List;
 
 import superafit.rar.com.br.superafit.R;
 import superafit.rar.com.br.superafit.adapter.FragmetAdapter;
-import superafit.rar.com.br.superafit.model.User;
 import superafit.rar.com.br.superafit.repository.LoginRepository;
 import superafit.rar.com.br.superafit.ui.fragment.MessagesFragment;
 import superafit.rar.com.br.superafit.ui.fragment.SchedulesFragment;
@@ -63,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
     @NonNull
     private List<String> getFragmentNames() {
         List<String> fragmentNames;
-        fragmentNames = Arrays.asList(getString(R.string.wod), getString(R.string.horarios), getString(R.string.comunicados));
+        fragmentNames = Arrays.asList(getString(R.string.wod), getString(R.string.schedules), getString(R.string.messages));
         return fragmentNames;
     }
 
