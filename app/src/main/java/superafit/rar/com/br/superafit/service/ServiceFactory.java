@@ -4,7 +4,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
-import superafit.rar.com.br.superafit.service.model.UserService;
 
 /**
  * Created by ralmendro on 27/05/17.
@@ -49,5 +48,9 @@ public class ServiceFactory {
 
     public UserService getUserService() {
         return this.retrofit.create(UserService.class);
+    }
+
+    public ScheduleService getScheduleService() {
+        return this.retrofit.create(ScheduleService.class);
     }
 }

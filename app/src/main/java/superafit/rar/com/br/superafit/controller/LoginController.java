@@ -13,6 +13,7 @@ import superafit.rar.com.br.superafit.event.LoginFailureEvent;
 import superafit.rar.com.br.superafit.event.LoginResponseEvent;
 import superafit.rar.com.br.superafit.exception.InvalidLoginException;
 import superafit.rar.com.br.superafit.model.User;
+import superafit.rar.com.br.superafit.repository.LoginRepository;
 import superafit.rar.com.br.superafit.service.ServiceFactory;
 import superafit.rar.com.br.superafit.service.model.request.LoginRequest;
 import superafit.rar.com.br.superafit.service.model.response.LoginResponse;
@@ -25,13 +26,20 @@ public class LoginController {
 
     private Context context;
 
+    private LoginRepository loginRepository;
+
     public LoginController(Context context) {
         this.context = context;
+        this.loginRepository = new LoginRepository(context);
     }
 
     public void doLogin(User user) {
         validateLogin(user);
         callLoginApi(user);
+    }
+
+    public void logoff() {
+        loginRepository.logoff();
     }
 
     private void validateLogin(User user) {
@@ -53,7 +61,7 @@ public class LoginController {
         }
     }
 
-    private void callLoginApi(User user) {
+    private void callLoginApi(final User user) {
 
         Call<LoginResponse> loginResponseCall = ServiceFactory.getInstance().getLoginService().doLogin(
                 getLoginRequest(user));
@@ -63,6 +71,10 @@ public class LoginController {
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if(response.isSuccessful()) {
                     Log.i("doLogin", "onResponse: sucesso");
+
+                    user.setId(response.body().getUserId());
+                    loginRepository.login(user);
+
                     EventBus.getDefault().post(new LoginResponseEvent(response.body()));
                 } else {
                     Log.e("doLogin", "onResponse: erro");

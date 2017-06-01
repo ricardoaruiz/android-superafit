@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/common_menu_sair"
-        android:icon="@drawable/logout_branco"
+        android:icon="@drawable/ic_logout_branco"
         android:title="Sair"
         app:showAsAction="always"/>
 

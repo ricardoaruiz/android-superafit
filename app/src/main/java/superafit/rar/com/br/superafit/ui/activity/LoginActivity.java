@@ -29,10 +29,10 @@ import superafit.rar.com.br.superafit.uitls.UIUtil;
 public class LoginActivity extends FullscreenActivity {
 
     private LoginController loginController;
+
     private EditText editLogin;
     private EditText editPassword;
     private ProgressDialog progressDialog;
-    private LoginRepository loginRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +40,6 @@ public class LoginActivity extends FullscreenActivity {
         setContentView(R.layout.activity_login);
 
         this.loginController = new LoginController(this);
-        this.loginRepository = new LoginRepository(this);
 
         Button btnOk = (Button) findViewById(R.id.login_activity_btn_login);
         btnOk.setOnClickListener(btnOkClick);
@@ -64,10 +63,6 @@ public class LoginActivity extends FullscreenActivity {
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLoginResponseEvent(LoginResponseEvent event) {
-        User user = getUser();
-        user.setId(event.getLoginResponse().getUserId());
-        loginRepository.login(user);
-
         final Intent mainActivity = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(mainActivity);
         finish();

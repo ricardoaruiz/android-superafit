@@ -1,4 +1,4 @@
-package superafit.rar.com.br.superafit.service.model;
+package superafit.rar.com.br.superafit.service;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
