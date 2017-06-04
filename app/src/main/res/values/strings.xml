@@ -8,8 +8,9 @@
     <string name="processing">Processando</string>
     <string name="login">Login</string>
     <string name="back">voltar</string>
-
+    <string name="movements">Exercícios</string>
     <string name="create_your_user">Crie seu usuário</string>
+
     <string name="msg_required_login">O login deve ser informado.</string>
     <string name="msg_required_password">A senha deve ser informada com 6 caracteres.</string>
     <string name="msg_passwords_are_difrent">As senhas informadas são diferentes.</string>
@@ -17,6 +18,6 @@
     <string name="msg_invalid_login">Usuário ou senha informados não conferem.</string>
     <string name="msg_failed_login">Estamos enfrentando alguns problemas... Por favor tente mais tarde.</string>
     <string name="msg_signup_generic_error">Ocorreu um erro ao criar o usuário. Por favor tente mais tarde.</string>
-
+    <string name="msg_load_information_error">Não foi possível recuperar as informações.\nVerifique sua conexão com a internet.\nCaso o problema persista, tente mais tarde.</string>
 
 </resources>

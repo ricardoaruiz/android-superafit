@@ -23,15 +23,24 @@ import superafit.rar.com.br.superafit.service.model.response.ScheduleResponse;
 
 public class ScheduleController {
 
+    private static ScheduleController instance;
+
     private Context context;
     private ScheduleRepository scheduleRepository;
 
-    public ScheduleController(Context context) {
+    private ScheduleController(Context context) {
         this.context = context;
         this.scheduleRepository = new ScheduleRepository(context);
     }
 
-    public void list() {
+    public static ScheduleController getInstance(Context context) {
+        if(instance == null) {
+            instance = new ScheduleController(context);
+        }
+        return instance;
+    }
+
+    public void load() {
 
         final ListScheduleResponse schedules = scheduleRepository.getSchedules();
 
@@ -47,7 +56,7 @@ public class ScheduleController {
             callSchedules.enqueue(new Callback<ListScheduleResponse>() {
                 @Override
                 public void onResponse(Call<ListScheduleResponse> call, Response<ListScheduleResponse> response) {
-                    Log.i("list", "onResponse: sucesso");
+                    Log.i("load", "onResponse: sucesso");
                     ListScheduleResponse data = response.body();
                     scheduleRepository.save(data);
                     EventBus.getDefault().post(new ListScheduleSuccessEvent(data));
@@ -55,7 +64,7 @@ public class ScheduleController {
 
                 @Override
                 public void onFailure(Call<ListScheduleResponse> call, Throwable t) {
-                    Log.e("list", "onFailure: " + t.getMessage());
+                    Log.e("load", "onFailure: " + t.getMessage());
                 }
             });
         }

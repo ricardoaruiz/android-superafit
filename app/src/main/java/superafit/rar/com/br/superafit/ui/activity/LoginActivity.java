@@ -33,6 +33,7 @@ public class LoginActivity extends FullscreenActivity {
     private EditText editLogin;
     private EditText editPassword;
     private ProgressDialog progressDialog;
+    private Button btnOk;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +42,7 @@ public class LoginActivity extends FullscreenActivity {
 
         this.loginController = new LoginController(this);
 
-        Button btnOk = (Button) findViewById(R.id.login_activity_btn_login);
+        btnOk = (Button) findViewById(R.id.login_activity_btn_login);
         btnOk.setOnClickListener(btnOkClick);
 
         Button btnSignup = (Button) findViewById(R.id.login_activity_btn_signup);

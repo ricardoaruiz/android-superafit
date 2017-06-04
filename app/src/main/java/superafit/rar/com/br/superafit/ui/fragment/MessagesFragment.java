@@ -15,7 +15,10 @@ import superafit.rar.com.br.superafit.R;
 
 public class MessagesFragment extends Fragment {
 
-    public static MessagesFragment getInstance() {
+    private MessagesFragment() {
+    }
+
+    public static MessagesFragment newInstance() {
         return new MessagesFragment();
     }
 

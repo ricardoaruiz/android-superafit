@@ -53,4 +53,8 @@ public class ServiceFactory {
     public ScheduleService getScheduleService() {
         return this.retrofit.create(ScheduleService.class);
     }
+
+    public WodService getWodService() {
+        return this.retrofit.create(WodService.class);
+    }
 }
