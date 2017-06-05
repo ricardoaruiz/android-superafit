@@ -54,7 +54,7 @@ public class SchedulesFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_schedules, container, false);
         list = (ListView) view.findViewById(R.id.fragment_schedules_list);
 
-        initProgress();
+        //initProgress();
         scheduleController = ScheduleController.getInstance(getContext());
         scheduleController.load();
 

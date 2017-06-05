@@ -5,6 +5,10 @@ import android.util.Log;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.net.HttpURLConnection;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -36,12 +40,19 @@ public class WodController {
 
     public void load() {
 
-        Call<GetWodResponse> getWodCall = ServiceFactory.getInstance().getWodService().getWod();
+        SimpleDateFormat diaMesAno = new SimpleDateFormat("dd/MM/yyyy");
+        String data = diaMesAno.format(new Date());
+
+        Call<GetWodResponse> getWodCall = ServiceFactory.getInstance().getWodService().getWod(data);
         getWodCall.enqueue(new Callback<GetWodResponse>() {
             @Override
             public void onResponse(Call<GetWodResponse> call, Response<GetWodResponse> response) {
                 Log.i("load", "onResponse: sucesso.");
-                EventBus.getDefault().post(new GetWodResponseEvent(response.body()));
+                if(response.code() == HttpURLConnection.HTTP_NO_CONTENT) {
+                    EventBus.getDefault().post(new GetWodResponseEvent());
+                } else {
+                    EventBus.getDefault().post(new GetWodResponseEvent(response.body()));
+                }
             }
 
             @Override

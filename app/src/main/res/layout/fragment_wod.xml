@@ -1,78 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/fragment_wod_main"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:visibility="visible">
 
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/fragment_wod_swipe"
             android:layout_width="match_parent"
-            android:layout_height="135dp">
+            android:layout_height="115dp">
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardElevation="8dp"
-                app:cardCornerRadius="5dp"
-                app:cardUseCompatPadding="true"
-                app:cardBackgroundColor="@color/colorPrimary">
-
-                <LinearLayout
+                <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    app:cardElevation="2dp"
+                    app:cardCornerRadius="5dp"
+                    app:cardUseCompatPadding="true"
+                    app:cardBackgroundColor="@color/colorPrimary">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="vertical">
 
-                        <ImageView
-                            android:layout_width="56dp"
-                            android:layout_height="56dp"
-                            android:src="@drawable/ic_calendario_branco" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/fragment_wod_date"
-                            android:layout_width="wrap_content"
-                            android:layout_height="56dp"
-                            android:textSize="28dp"
-                            android:textStyle="bold"
-                            android:textColor="@color/branco"
-                            android:gravity="center_vertical"/>
+                            <ImageView
+                                android:id="@+id/imageView"
+                                android:layout_width="90dp"
+                                android:layout_height="match_parent"
+                                app:srcCompat="@drawable/logo" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <ImageView
+                                        android:layout_width="56dp"
+                                        android:layout_height="56dp"
+                                        android:src="@drawable/ic_calendario_branco" />
+
+                                    <TextView
+                                        android:id="@+id/fragment_wod_date"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="56dp"
+                                        android:gravity="center_vertical"
+                                        android:textColor="@color/branco"
+                                        android:textSize="28dp"
+                                        android:textStyle="bold"/>
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <ImageView
+                                        android:layout_width="56dp"
+                                        android:layout_height="56dp"
+                                        android:src="@drawable/ic_repeticao_branco" />
+
+                                    <TextView
+                                        android:id="@+id/fragment_wod_rounds"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="56dp"
+                                        android:gravity="center_vertical"
+                                        android:textColor="@color/branco"
+                                        android:textSize="28dp"
+                                        android:textStyle="bold" />
+
+                                </LinearLayout>
+                            </LinearLayout>
+                        </LinearLayout>
 
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="56dp"
-                            android:layout_height="56dp"
-                            android:src="@drawable/ic_repeticao_branco" />
-
-                        <TextView
-                            android:id="@+id/fragment_wod_rounds"
-                            android:layout_width="wrap_content"
-                            android:layout_height="56dp"
-                            android:textSize="28dp"
-                            android:textStyle="bold"
-                            android:textColor="@color/branco"
-                            android:gravity="center_vertical"/>
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </android.support.v7.widget.CardView>
+                </android.support.v7.widget.CardView>
 
             </FrameLayout>
 
@@ -81,7 +106,7 @@
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardElevation="8dp"
+            app:cardElevation="2dp"
             app:cardCornerRadius="5dp"
             app:cardUseCompatPadding="true"
             app:cardBackgroundColor="@color/colorPrimary">
@@ -134,3 +159,70 @@
         </android.support.v7.widget.CardView>
 
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/fragment_wod_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:visibility="visible">
+
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/logo"
+            android:layout_gravity="center"
+            android:layout_marginTop="80dp"
+            android:layout_marginBottom="40sp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Carregando..."
+            android:textColor="@color/colorPrimary"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:gravity="center_vertical"
+            android:textAlignment="center"/>
+
+    </LinearLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/fragment_wod_swipe_no_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/fragment_wod_no_data"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@drawable/logo"
+                android:layout_gravity="center"
+                android:layout_marginTop="80dp"
+                android:layout_marginBottom="40sp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="O treino de hoje ainda não foi publicado."
+                android:textColor="@color/colorPrimary"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:gravity="center_vertical"
+                android:textAlignment="center"/>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</LinearLayout>

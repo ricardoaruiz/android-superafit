@@ -1,6 +1,5 @@
 package superafit.rar.com.br.superafit.ui.fragment;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -30,18 +29,18 @@ import superafit.rar.com.br.superafit.service.model.response.GetWodResponse;
 
 public class WodFragment extends Fragment {
 
-    private WodController wodController;
-
     private View view;
 
     private SwipeRefreshLayout swipe;
+    private SwipeRefreshLayout swipeNoData;
     private TextView textDate;
     private TextView textRounds;
     private ListView listMovements;
-    private ProgressDialog progress;
 
     private GetWodResponse wod;
-
+    private View loading;
+    private View main;
+    private View noData;
 
     private WodFragment() {
 
@@ -65,12 +64,18 @@ public class WodFragment extends Fragment {
         textDate = (TextView) view.findViewById(R.id.fragment_wod_date);
         textRounds = (TextView) view.findViewById(R.id.fragment_wod_rounds);
         listMovements = (ListView) view.findViewById(R.id.fragment_wod_list_movement);
+
+        loading = view.findViewById(R.id.fragment_wod_loading);
+        main = view.findViewById(R.id.fragment_wod_main);
+        noData = view.findViewById(R.id.fragment_wod_no_data);
+
         swipe = (SwipeRefreshLayout) view.findViewById(R.id.fragment_wod_swipe);
         swipe.setOnRefreshListener(getRefreshListener());
 
-        initProgress();
-        wodController = WodController.getInstance(getContext());
-        wodController.load();
+        swipeNoData = (SwipeRefreshLayout) view.findViewById(R.id.fragment_wod_swipe_no_data);
+        swipeNoData.setOnRefreshListener(getRefreshListener());
+
+        load();
 
         return view;
     }
@@ -88,7 +93,12 @@ public class WodFragment extends Fragment {
                 R.string.msg_load_information_error,
                 Snackbar.LENGTH_LONG).show();
         stopSwipe();
-        endProgress();
+        showMain();
+    }
+
+    private void load() {
+        showLoading();
+        WodController.getInstance(getContext()).load();
     }
 
     private void fillView() {
@@ -98,7 +108,9 @@ public class WodFragment extends Fragment {
             if(wod.getMovements() != null && !wod.getMovements().isEmpty()) {
                 listMovements.setAdapter(new WodMovementListItemAdapter(getContext(), wod.getMovements()));
             }
-            endProgress();
+            showMain();
+        } else {
+            showNoData();
         }
     }
 
@@ -108,14 +120,22 @@ public class WodFragment extends Fragment {
         EventBus.getDefault().unregister(this);
     }
 
-    private void initProgress() {
-        progress = ProgressDialog.show(this.getContext(), getString(R.string.processing), getString(R.string.processing));
+    private void showMain() {
+        loading.setVisibility(View.GONE);
+        noData.setVisibility(View.GONE);
+        main.setVisibility(View.VISIBLE);
     }
 
-    private void endProgress() {
-        if(progress!= null && progress.isShowing()) {
-            progress.dismiss();
-        }
+    private void showLoading() {
+        noData.setVisibility(View.GONE);
+        main.setVisibility(View.GONE);
+        loading.setVisibility(View.VISIBLE);
+    }
+
+    private void showNoData() {
+        loading.setVisibility(View.GONE);
+        main.setVisibility(View.GONE);
+        noData.setVisibility(View.VISIBLE);
     }
 
     @NonNull
@@ -123,7 +143,7 @@ public class WodFragment extends Fragment {
         return new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                wodController.load();
+                load();
             }
         };
     }
@@ -131,6 +151,9 @@ public class WodFragment extends Fragment {
     private void stopSwipe() {
         if(swipe.isRefreshing()) {
             swipe.setRefreshing(false);
+        }
+        if(swipeNoData.isRefreshing()) {
+            swipeNoData.setRefreshing(false);
         }
     }
 }

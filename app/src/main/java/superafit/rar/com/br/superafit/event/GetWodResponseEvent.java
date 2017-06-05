@@ -10,6 +10,9 @@ public class GetWodResponseEvent {
 
     private GetWodResponse wod;
 
+    public GetWodResponseEvent() {
+    }
+
     public GetWodResponseEvent(GetWodResponse wod) {
         this.wod = wod;
     }
