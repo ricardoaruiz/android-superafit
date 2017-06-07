@@ -19,5 +19,7 @@
     <string name="msg_failed_login">Estamos enfrentando alguns problemas... Por favor tente mais tarde.</string>
     <string name="msg_signup_generic_error">Ocorreu um erro ao criar o usuário. Por favor tente mais tarde.</string>
     <string name="msg_load_information_error">Não foi possível recuperar as informações.\nVerifique sua conexão com a internet.\nCaso o problema persista, tente mais tarde.</string>
+    <string name="msg_schedule_not_found">Os horários ainda não foram publicados.</string>
+    <string name="msg_wod_not_found">O treino de hoje ainda não foi publicado.</string>
 
 </resources>

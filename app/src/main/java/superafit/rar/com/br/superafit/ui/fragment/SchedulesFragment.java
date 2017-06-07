@@ -1,6 +1,5 @@
 package superafit.rar.com.br.superafit.ui.fragment;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -32,7 +31,8 @@ public class SchedulesFragment extends Fragment {
     private ListView list;
     private List<ScheduleResponse> listSchedule;
 
-    private ProgressDialog progress;
+    private View main;
+    private View noData;
 
     private SchedulesFragment() {
 
@@ -54,6 +54,9 @@ public class SchedulesFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_schedules, container, false);
         list = (ListView) view.findViewById(R.id.fragment_schedules_list);
 
+        main = view.findViewById(R.id.fragment_schedule_main);
+        noData = view.findViewById(R.id.fragment_schedules_no_data);
+
         //initProgress();
         scheduleController = ScheduleController.getInstance(getContext());
         scheduleController.load();
@@ -63,24 +66,16 @@ public class SchedulesFragment extends Fragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLoadData(ListScheduleSuccessEvent event) {
-        listSchedule = event.getData().getSchedules();
+        listSchedule = event.hasData() ? event.getData().getSchedules() : null;
         fillList();
     }
 
     private void fillList() {
         if(listSchedule != null && !listSchedule.isEmpty()) {
             list.setAdapter(new ScheduleListItemAdapter(this.getContext(), listSchedule));
-            endProgress();
-        }
-    }
-
-    private void initProgress() {
-        progress = ProgressDialog.show(this.getContext(), getString(R.string.processing), getString(R.string.processing));
-    }
-
-    private void endProgress() {
-        if(progress!= null && progress.isShowing()) {
-            progress.dismiss();
+            showMain();
+        } else {
+            showNoData();
         }
     }
 
@@ -88,5 +83,15 @@ public class SchedulesFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    private void showMain() {
+        main.setVisibility(View.VISIBLE);
+        noData.setVisibility(View.GONE);
+    }
+
+    private void showNoData() {
+        main.setVisibility(View.GONE);
+        noData.setVisibility(View.VISIBLE);
     }
 }

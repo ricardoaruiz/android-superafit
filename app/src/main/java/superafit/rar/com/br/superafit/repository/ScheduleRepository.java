@@ -11,68 +11,45 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.List;
 
+import superafit.rar.com.br.superafit.service.ServiceConstants;
 import superafit.rar.com.br.superafit.service.model.response.ListScheduleResponse;
 import superafit.rar.com.br.superafit.service.model.response.ScheduleResponse;
+import superafit.rar.com.br.superafit.uitls.JsonUtil;
 
 /**
  * Created by ralmendro on 31/05/17.
  */
 
-public class ScheduleRepository {
+public class ScheduleRepository extends BaseSharedPreferenceRepository {
 
-    private static final String SCHEDULE_PREFERENCE = "superafit.rar.com.br.superafit.repository.ScheduleRepository";
     private static final String SCHEDULES = "SCHEDULES";
+
     private Context context;
 
     public ScheduleRepository(Context context) {
+        super(context);
         this.context = context;
+    }
+
+    @Override
+    String getPreferenceKey() {
+        return "superafit.rar.com.br.superafit.repository.ScheduleRepository";
     }
 
     public void save(ListScheduleResponse data) {
         if(data.getSchedules() != null && !data.getSchedules().isEmpty()) {
-            String jsonSchedules = getJsonSchedulesFromList(data);
-            SharedPreferences preference = getPreference();
-            SharedPreferences.Editor edit = preference.edit();
-            edit.putString(SCHEDULES, jsonSchedules);
-            edit.commit();
+            String jsonSchedules = JsonUtil.toJson(data);
+            if(jsonSchedules != null) {
+                save(jsonSchedules, SCHEDULES);
+            }
         }
     }
 
     public ListScheduleResponse getSchedules() {
-
-        ListScheduleResponse listSchedule = null;
-
-        SharedPreferences preference = getPreference();
-        String jsonSchedules = preference.getString(SCHEDULES, null);
-
+        String jsonSchedules = getValue(SCHEDULES, null);
         if(jsonSchedules != null) {
-            listSchedule = getListScheduleFromJson(jsonSchedules);
+            return (ListScheduleResponse) JsonUtil.fromJson(jsonSchedules, ListScheduleResponse.class);
         }
-
-        return listSchedule;
-    }
-
-    private String getJsonSchedulesFromList(ListScheduleResponse schedules) {
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            return mapper.writeValueAsString(schedules);
-        } catch (JsonProcessingException e) {
-            return null;
-        }
-    }
-
-    private ListScheduleResponse getListScheduleFromJson(String jsonSchedules) {
-        ListScheduleResponse listSchedule = null;
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            listSchedule = mapper.readValue(jsonSchedules,ListScheduleResponse.class);
-        } catch (IOException e) {
-            Log.e("leitura", "getListScheduleFromJson: " + e.getMessage() );
-        }
-        return listSchedule;
-    }
-
-    private SharedPreferences getPreference() {
-        return context.getSharedPreferences(SCHEDULE_PREFERENCE, Context.MODE_PRIVATE);
+        return null;
     }
 }

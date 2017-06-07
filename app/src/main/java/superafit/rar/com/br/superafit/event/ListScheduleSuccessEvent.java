@@ -10,11 +10,18 @@ public class ListScheduleSuccessEvent {
 
     private ListScheduleResponse data;
 
+    public ListScheduleSuccessEvent() {
+    }
+
     public ListScheduleSuccessEvent(ListScheduleResponse schedules) {
         this.data = schedules;
     }
 
     public ListScheduleResponse getData() {
         return data;
+    }
+
+    public boolean hasData() {
+        return this.data != null && !this.data.getSchedules().isEmpty();
     }
 }

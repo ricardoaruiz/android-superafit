@@ -6,6 +6,7 @@ import android.util.Log;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.net.HttpURLConnection;
 import java.util.List;
 
 import retrofit2.Call;
@@ -26,6 +27,7 @@ public class ScheduleController {
     private static ScheduleController instance;
 
     private Context context;
+
     private ScheduleRepository scheduleRepository;
 
     private ScheduleController(Context context) {
@@ -41,7 +43,6 @@ public class ScheduleController {
     }
 
     public void load() {
-
         final ListScheduleResponse schedules = scheduleRepository.getSchedules();
 
         if(schedules != null) {
@@ -52,22 +53,30 @@ public class ScheduleController {
                 }
             },1000);
         } else {
-            Call<ListScheduleResponse> callSchedules = ServiceFactory.getInstance().getScheduleService().list();
-            callSchedules.enqueue(new Callback<ListScheduleResponse>() {
-                @Override
-                public void onResponse(Call<ListScheduleResponse> call, Response<ListScheduleResponse> response) {
-                    Log.i("load", "onResponse: sucesso");
+            getRemoteSchedule();
+        }
+    }
+
+    private void getRemoteSchedule() {
+        Call<ListScheduleResponse> callSchedules = ServiceFactory.getInstance().getScheduleService().list();
+        callSchedules.enqueue(new Callback<ListScheduleResponse>() {
+            @Override
+            public void onResponse(Call<ListScheduleResponse> call, Response<ListScheduleResponse> response) {
+                Log.i("load", "onResponse: sucesso");
+                if(response.code() == HttpURLConnection.HTTP_NO_CONTENT) {
+                    EventBus.getDefault().post(new ListScheduleSuccessEvent());
+                } else {
                     ListScheduleResponse data = response.body();
                     scheduleRepository.save(data);
                     EventBus.getDefault().post(new ListScheduleSuccessEvent(data));
                 }
+            }
 
-                @Override
-                public void onFailure(Call<ListScheduleResponse> call, Throwable t) {
-                    Log.e("load", "onFailure: " + t.getMessage());
-                }
-            });
-        }
+            @Override
+            public void onFailure(Call<ListScheduleResponse> call, Throwable t) {
+                Log.e("load", "onFailure: " + t.getMessage());
+            }
+        });
     }
 
 }
