@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "501949237373",
+    "firebase_url": "https://superafit-88bf5.firebaseio.com",
+    "project_id": "superafit-88bf5",
+    "storage_bucket": "superafit-88bf5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:501949237373:android:88942faa92db46b4",
+        "android_client_info": {
+          "package_name": "superafit.rar.com.br.superafit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "501949237373-q0v0k1plihmg8o9ovectsnebavq9tiul.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "superafit.rar.com.br.superafit",
+            "certificate_hash": "9333afae27f1e64876d7b7c4cd4d0522100f5535"
+          }
+        },
+        {
+          "client_id": "501949237373-69e32l5dhjk4vhilodo81uei4n084hh7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCU1gA7euP3IYcwqhKYHJZcOS40CIVhZpg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "501949237373-69e32l5dhjk4vhilodo81uei4n084hh7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

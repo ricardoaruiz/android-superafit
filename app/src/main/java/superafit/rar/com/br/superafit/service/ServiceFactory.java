@@ -57,4 +57,8 @@ public class ServiceFactory {
     public WodService getWodService() {
         return this.retrofit.create(WodService.class);
     }
+
+    public DeviceService getDeviceService() {
+        return this.retrofit.create(DeviceService.class);
+    }
 }

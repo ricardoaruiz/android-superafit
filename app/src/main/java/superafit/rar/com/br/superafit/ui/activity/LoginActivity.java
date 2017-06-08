@@ -18,10 +18,12 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.net.HttpURLConnection;
 
 import superafit.rar.com.br.superafit.R;
+import superafit.rar.com.br.superafit.controller.DeviceController;
 import superafit.rar.com.br.superafit.controller.LoginController;
 import superafit.rar.com.br.superafit.event.LoginFailureEvent;
 import superafit.rar.com.br.superafit.event.LoginResponseEvent;
 import superafit.rar.com.br.superafit.exception.InvalidLoginException;
+import superafit.rar.com.br.superafit.model.Device;
 import superafit.rar.com.br.superafit.model.User;
 import superafit.rar.com.br.superafit.repository.LoginRepository;
 import superafit.rar.com.br.superafit.uitls.UIUtil;
@@ -29,6 +31,8 @@ import superafit.rar.com.br.superafit.uitls.UIUtil;
 public class LoginActivity extends FullscreenActivity {
 
     private LoginController loginController;
+
+    private DeviceController deviceController;
 
     private EditText editLogin;
     private EditText editPassword;
@@ -41,6 +45,7 @@ public class LoginActivity extends FullscreenActivity {
         setContentView(R.layout.activity_login);
 
         this.loginController = new LoginController(this);
+        this.deviceController = new DeviceController(this);
 
         btnOk = (Button) findViewById(R.id.login_activity_btn_login);
         btnOk.setOnClickListener(btnOkClick);
@@ -64,6 +69,8 @@ public class LoginActivity extends FullscreenActivity {
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLoginResponseEvent(LoginResponseEvent event) {
+        deviceController.syncronize();
+
         final Intent mainActivity = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(mainActivity);
         finish();

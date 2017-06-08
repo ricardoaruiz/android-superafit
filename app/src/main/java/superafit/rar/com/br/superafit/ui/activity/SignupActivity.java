@@ -18,6 +18,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.net.HttpURLConnection;
 
 import superafit.rar.com.br.superafit.R;
+import superafit.rar.com.br.superafit.controller.DeviceController;
 import superafit.rar.com.br.superafit.controller.SignupController;
 import superafit.rar.com.br.superafit.event.CreateUserFailureEvent;
 import superafit.rar.com.br.superafit.event.CreateUserResponseEvent;
@@ -32,6 +33,7 @@ public class SignupActivity extends FullscreenActivity {
 
     private SignupController signupController;
     private LoginRepository loginRepository;
+    private DeviceController deviceController;
 
     private EditText editLogin;
     private EditText editPassword;
@@ -46,6 +48,7 @@ public class SignupActivity extends FullscreenActivity {
 
         this.signupController = new SignupController(this);
         this.loginRepository = new LoginRepository(this);
+        this.deviceController = new DeviceController(this);
 
         Button btnOk = (Button) findViewById(R.id.signup_activity_btn_confirm);
         btnOk.setOnClickListener(btnOkClick);
@@ -68,6 +71,7 @@ public class SignupActivity extends FullscreenActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onCreateUserResponseEvent(CreateUserResponseEvent event) {
         loginRepository.login(getUser(event.getBody().getUserId()));
+        deviceController.syncronize();
 
         final Intent mainActivity = new Intent(SignupActivity.this, MainActivity.class);
         startActivity(mainActivity);
