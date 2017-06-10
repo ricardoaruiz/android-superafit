@@ -160,69 +160,11 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/fragment_wod_loading"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="10dp"
-        android:visibility="visible">
+    <!-- Generic Message -->
+    <include
+        android:id="@+id/framgent_wod_generic_message"
+        layout="@layout/layout_generic_message"
+        android:visibility="gone"/>
 
-        <ImageView
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:src="@drawable/logo"
-            android:layout_gravity="center"
-            android:layout_marginTop="80dp"
-            android:layout_marginBottom="40sp"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="Carregando..."
-            android:textColor="@color/colorPrimary"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            android:gravity="center_vertical"
-            android:textAlignment="center"/>
-
-    </LinearLayout>
-
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/fragment_wod_swipe_no_data"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:id="@+id/fragment_wod_no_data"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="10dp"
-            android:visibility="gone">
-
-            <ImageView
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:src="@drawable/logo"
-                android:layout_gravity="center"
-                android:layout_marginTop="80dp"
-                android:layout_marginBottom="40sp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="@string/msg_wod_not_found"
-                android:textColor="@color/colorPrimary"
-                android:textSize="30sp"
-                android:textStyle="bold"
-                android:gravity="center_vertical"
-                android:textAlignment="center"/>
-
-        </LinearLayout>
-
-    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

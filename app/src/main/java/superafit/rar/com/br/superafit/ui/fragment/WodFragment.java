@@ -3,7 +3,6 @@ package superafit.rar.com.br.superafit.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
@@ -22,6 +21,7 @@ import superafit.rar.com.br.superafit.controller.WodController;
 import superafit.rar.com.br.superafit.event.GetWodFailureEvent;
 import superafit.rar.com.br.superafit.event.GetWodResponseEvent;
 import superafit.rar.com.br.superafit.service.model.response.GetWodResponse;
+import superafit.rar.com.br.superafit.ui.layout.GenericMessageLayout;
 
 /**
  * Created by ralmendro on 5/19/17.
@@ -29,22 +29,17 @@ import superafit.rar.com.br.superafit.service.model.response.GetWodResponse;
 
 public class WodFragment extends Fragment {
 
+    private GenericMessageLayout genericMessage;
+
     private View view;
+    private View main;
 
     private SwipeRefreshLayout swipe;
-    private SwipeRefreshLayout swipeNoData;
     private TextView textDate;
     private TextView textRounds;
     private ListView listMovements;
 
     private GetWodResponse wod;
-    private View loading;
-    private View main;
-    private View noData;
-
-    private WodFragment() {
-
-    }
 
     public static WodFragment newInstance() {
         return new WodFragment();
@@ -60,20 +55,16 @@ public class WodFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_wod, container, false);
+        genericMessage = new GenericMessageLayout(view, R.id.framgent_wod_generic_message);
 
         textDate = (TextView) view.findViewById(R.id.fragment_wod_date);
         textRounds = (TextView) view.findViewById(R.id.fragment_wod_rounds);
         listMovements = (ListView) view.findViewById(R.id.fragment_wod_list_movement);
 
-        loading = view.findViewById(R.id.fragment_wod_loading);
         main = view.findViewById(R.id.fragment_wod_main);
-        noData = view.findViewById(R.id.fragment_wod_no_data);
 
         swipe = (SwipeRefreshLayout) view.findViewById(R.id.fragment_wod_swipe);
         swipe.setOnRefreshListener(getRefreshListener());
-
-        swipeNoData = (SwipeRefreshLayout) view.findViewById(R.id.fragment_wod_swipe_no_data);
-        swipeNoData.setOnRefreshListener(getRefreshListener());
 
         load();
 
@@ -82,18 +73,20 @@ public class WodFragment extends Fragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onGetWodResponseEvent(GetWodResponseEvent event) {
-        wod = event.getWod();
-        fillView();
-        stopSwipe();
+        if(event.hasData()) {
+            wod = event.getData();
+            fillView();
+            stopSwipe();
+
+        } else {
+            showMessageWithRetry(event.getMessage());
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onGetWodFailureEvent(GetWodFailureEvent event) {
-        Snackbar.make(textDate,
-                R.string.msg_load_information_error,
-                Snackbar.LENGTH_LONG).show();
         stopSwipe();
-        showMain();
+        showMessageWithRetry(getString(R.string.msg_remote_error));
     }
 
     private void load() {
@@ -110,7 +103,7 @@ public class WodFragment extends Fragment {
             }
             showMain();
         } else {
-            showNoData();
+            showMessageWithRetry(getString(R.string.msg_wod_not_found));
         }
     }
 
@@ -121,21 +114,25 @@ public class WodFragment extends Fragment {
     }
 
     private void showMain() {
-        loading.setVisibility(View.GONE);
-        noData.setVisibility(View.GONE);
         main.setVisibility(View.VISIBLE);
+        genericMessage.hideMessage();
     }
 
     private void showLoading() {
-        noData.setVisibility(View.GONE);
         main.setVisibility(View.GONE);
-        loading.setVisibility(View.VISIBLE);
+        genericMessage.showMessage(getString(R.string.loading));
     }
 
-    private void showNoData() {
-        loading.setVisibility(View.GONE);
+    private void showMessageWithRetry(String message) {
         main.setVisibility(View.GONE);
-        noData.setVisibility(View.VISIBLE);
+        genericMessage.showMessage(message,
+                new GenericMessageLayout.OnClickTryAgainEvent() {
+                    @Override
+                    public void onClick() {
+                        load();
+                    }
+                });
+
     }
 
     @NonNull
@@ -151,9 +148,6 @@ public class WodFragment extends Fragment {
     private void stopSwipe() {
         if(swipe.isRefreshing()) {
             swipe.setRefreshing(false);
-        }
-        if(swipeNoData.isRefreshing()) {
-            swipeNoData.setRefreshing(false);
         }
     }
 }

@@ -1,6 +1,5 @@
 package superafit.rar.com.br.superafit.event;
 
-import superafit.rar.com.br.superafit.model.User;
 import superafit.rar.com.br.superafit.service.model.response.CreateUserResponse;
 import superafit.rar.com.br.superafit.service.model.response.ErrorsResponse;
 
@@ -10,13 +9,41 @@ import superafit.rar.com.br.superafit.service.model.response.ErrorsResponse;
 
 public class CreateUserResponseEvent {
 
-    private final CreateUserResponse body;
+    private CreateUserResponse data;
+
+    private ErrorsResponse validations;
+
+    private String message;
 
     public CreateUserResponseEvent(CreateUserResponse body) {
-        this.body = body;
+        this.data = body;
     }
 
-    public CreateUserResponse getBody() {
-        return body;
+    public CreateUserResponseEvent(ErrorsResponse validations) {
+        this.validations = validations;
+    }
+
+    public CreateUserResponseEvent(String message) {
+        this.message = message;
+    }
+
+    public CreateUserResponse getData() {
+        return data;
+    }
+
+    public ErrorsResponse getValidations() {
+        return validations;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public boolean hasData() {
+        return data != null;
+    }
+
+    public boolean hasValidations() {
+        return validations != null;
     }
 }

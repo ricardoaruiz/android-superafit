@@ -5,6 +5,8 @@ import android.util.Log;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.net.HttpURLConnection;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -69,16 +71,20 @@ public class LoginController {
         loginResponseCall.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                if(response.isSuccessful()) {
-                    Log.i("doLogin", "onResponse: sucesso");
-
-                    user.setId(response.body().getUserId());
-                    loginRepository.login(user);
-
-                    EventBus.getDefault().post(new LoginResponseEvent(response.body()));
-                } else {
-                    Log.e("doLogin", "onResponse: erro");
-                    EventBus.getDefault().post(new LoginFailureEvent(context.getString(R.string.msg_invalid_login)));
+                switch (response.code()) {
+                    case HttpURLConnection.HTTP_UNAUTHORIZED:
+                        Log.e("doLogin", "onResponse: " + context.getString(R.string.msg_invalid_login));
+                        EventBus.getDefault().post(new LoginResponseEvent(context.getString(R.string.msg_invalid_login)));
+                        break;
+                    case HttpURLConnection.HTTP_UNAVAILABLE:
+                        Log.e("doLogin", "onResponse: " + context.getString(R.string.msg_service_unavailable));
+                        EventBus.getDefault().post(new LoginResponseEvent(context.getString(R.string.msg_service_unavailable)));
+                        break;
+                    default:
+                        Log.i("doLogin", "onResponse: sucesso");
+                        user.setId(response.body().getUserId());
+                        loginRepository.login(user);
+                        EventBus.getDefault().post(new LoginResponseEvent(response.body()));
                 }
             }
 

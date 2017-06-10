@@ -8,16 +8,29 @@ import superafit.rar.com.br.superafit.service.model.response.GetWodResponse;
 
 public class GetWodResponseEvent {
 
-    private GetWodResponse wod;
+    private GetWodResponse data;
 
-    public GetWodResponseEvent() {
-    }
+    private String message;
+
+    public GetWodResponseEvent() { /*Nothing*/ }
 
     public GetWodResponseEvent(GetWodResponse wod) {
-        this.wod = wod;
+        this.data = wod;
     }
 
-    public GetWodResponse getWod() {
-        return wod;
+    public GetWodResponseEvent(String message) {
+        this.message = message;
+    }
+
+    public GetWodResponse getData() {
+        return data;
+    }
+
+    public boolean hasData() {
+        return data != null;
+    }
+
+    public String getMessage() {
+        return message;
     }
 }

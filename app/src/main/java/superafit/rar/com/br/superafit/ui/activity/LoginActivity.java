@@ -69,11 +69,15 @@ public class LoginActivity extends FullscreenActivity {
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLoginResponseEvent(LoginResponseEvent event) {
-        deviceController.syncronize();
-
-        final Intent mainActivity = new Intent(LoginActivity.this, MainActivity.class);
-        startActivity(mainActivity);
-        finish();
+        if(event.hasErrorMessage()) {
+            terminateProgressDialog();
+            Snackbar.make(editLogin, event.getMessage(), Snackbar.LENGTH_LONG).show();
+        } else {
+            deviceController.syncronize();
+            final Intent mainActivity = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(mainActivity);
+            finish();
+        }
     }
 
     /**
@@ -84,11 +88,7 @@ public class LoginActivity extends FullscreenActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLoginFailureEvent(LoginFailureEvent event) {
         terminateProgressDialog();
-        if(event.getMessage() != null) {
-            Snackbar.make(editLogin, R.string.msg_invalid_login, Snackbar.LENGTH_LONG).show();
-        } else {
-            Snackbar.make(editLogin, R.string.msg_failed_login, Snackbar.LENGTH_LONG).show();
-        }
+        Snackbar.make(editLogin, R.string.msg_failed_login, Snackbar.LENGTH_LONG).show();
     }
 
     private Button.OnClickListener btnOkClick = new View.OnClickListener() {

@@ -7,16 +7,16 @@ import android.util.Log;
 import org.greenrobot.eventbus.EventBus;
 
 import java.net.HttpURLConnection;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import superafit.rar.com.br.superafit.event.ListScheduleSuccessEvent;
+import superafit.rar.com.br.superafit.R;
+import superafit.rar.com.br.superafit.event.ListScheduleFailureEvent;
+import superafit.rar.com.br.superafit.event.ListScheduleResponseEvent;
 import superafit.rar.com.br.superafit.repository.ScheduleRepository;
 import superafit.rar.com.br.superafit.service.ServiceFactory;
 import superafit.rar.com.br.superafit.service.model.response.ListScheduleResponse;
-import superafit.rar.com.br.superafit.service.model.response.ScheduleResponse;
 
 /**
  * Created by ralmendro on 31/05/17.
@@ -49,7 +49,7 @@ public class ScheduleController {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    EventBus.getDefault().post(new ListScheduleSuccessEvent(schedules));
+                    EventBus.getDefault().post(new ListScheduleResponseEvent(schedules));
                 }
             },1000);
         } else {
@@ -62,19 +62,27 @@ public class ScheduleController {
         callSchedules.enqueue(new Callback<ListScheduleResponse>() {
             @Override
             public void onResponse(Call<ListScheduleResponse> call, Response<ListScheduleResponse> response) {
-                Log.i("load", "onResponse: sucesso");
-                if(response.code() == HttpURLConnection.HTTP_NO_CONTENT) {
-                    EventBus.getDefault().post(new ListScheduleSuccessEvent());
-                } else {
-                    ListScheduleResponse data = response.body();
-                    scheduleRepository.save(data);
-                    EventBus.getDefault().post(new ListScheduleSuccessEvent(data));
+                switch (response.code()) {
+                    case HttpURLConnection.HTTP_NO_CONTENT:
+                        Log.i("getRemoteSchedule", "onResponse: Não foram encontrados dados.");
+                        EventBus.getDefault().post(new ListScheduleResponseEvent(context.getString(R.string.msg_schedule_not_found)));
+                        break;
+                    case HttpURLConnection.HTTP_UNAVAILABLE:
+                        Log.e("getRemoteSchedule", "onResponse: " + context.getString(R.string.msg_service_unavailable));
+                        EventBus.getDefault().post(new ListScheduleResponseEvent(context.getString(R.string.msg_service_unavailable)));
+                        break;
+                    default:
+                        ListScheduleResponse data = response.body();
+                        scheduleRepository.save(data);
+                        EventBus.getDefault().post(new ListScheduleResponseEvent(data));
+                        break;
                 }
             }
 
             @Override
             public void onFailure(Call<ListScheduleResponse> call, Throwable t) {
                 Log.e("load", "onFailure: " + t.getMessage());
+                EventBus.getDefault().post(new ListScheduleFailureEvent());
             }
         });
     }

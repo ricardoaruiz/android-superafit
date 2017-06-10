@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,8 +13,6 @@ import android.widget.EditText;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import java.net.HttpURLConnection;
 
 import superafit.rar.com.br.superafit.R;
 import superafit.rar.com.br.superafit.controller.DeviceController;
@@ -25,8 +22,6 @@ import superafit.rar.com.br.superafit.event.CreateUserResponseEvent;
 import superafit.rar.com.br.superafit.exception.InvalidSignupException;
 import superafit.rar.com.br.superafit.model.User;
 import superafit.rar.com.br.superafit.repository.LoginRepository;
-import superafit.rar.com.br.superafit.service.model.response.ErrorResponse;
-import superafit.rar.com.br.superafit.service.model.response.ErrorsResponse;
 import superafit.rar.com.br.superafit.uitls.UIUtil;
 
 public class SignupActivity extends FullscreenActivity {
@@ -70,22 +65,28 @@ public class SignupActivity extends FullscreenActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onCreateUserResponseEvent(CreateUserResponseEvent event) {
-        loginRepository.login(getUser(event.getBody().getUserId()));
-        deviceController.syncronize();
+        if(event.hasData()) {
+            loginRepository.login(getUser(event.getData().getUserId()));
+            deviceController.syncronize();
 
-        final Intent mainActivity = new Intent(SignupActivity.this, MainActivity.class);
-        startActivity(mainActivity);
-        finish();
+            final Intent mainActivity = new Intent(SignupActivity.this, MainActivity.class);
+            startActivity(mainActivity);
+            finish();
+        } else {
+            terminateProgressDialog();
+            if(event.hasValidations()) {
+                createMessageErrorDialog(event.getValidations().getFormatedErrors());
+            } else {
+                Snackbar.make(editLogin, event.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onCreateUserFailureEvent(CreateUserFailureEvent event) {
-        if(event.getBody() != null) {
-            createMessageErrorDialog(event.getBody().getFormatedErrors());
-        } else {
-            Snackbar.make(editLogin, R.string.msg_signup_generic_error, Snackbar.LENGTH_LONG);
-        }
         terminateProgressDialog();
+        Snackbar.make(editLogin, R.string.msg_failed_login, Snackbar.LENGTH_LONG).show();
     }
 
     private User getUser() {

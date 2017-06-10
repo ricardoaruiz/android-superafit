@@ -1,6 +1,7 @@
 package superafit.rar.com.br.superafit.controller;
 
 import android.content.Context;
+import android.util.Log;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -40,10 +41,17 @@ public class SignupController {
         createUserResponseCall.enqueue(new Callback<CreateUserResponse>() {
             @Override
             public void onResponse(Call<CreateUserResponse> call, Response<CreateUserResponse> response) {
-                if(response.isSuccessful()) {
-                    EventBus.getDefault().post(new CreateUserResponseEvent(response.body()));
-                } else {
-                    EventBus.getDefault().post(new CreateUserFailureEvent(ErrorUtils.parseError(response.errorBody())));
+                switch (response.code()) {
+                    case HttpURLConnection.HTTP_UNAVAILABLE:
+                        Log.e("getRemoteWod", "onResponse: " + context.getString(R.string.msg_service_unavailable));
+                        EventBus.getDefault().post(new CreateUserResponseEvent(context.getString(R.string.msg_service_unavailable)));
+                        break;
+                    case 422:
+                        Log.e("getRemoteWod", "onResponse: Validações de criação de usuário.");
+                        EventBus.getDefault().post(new CreateUserResponseEvent(ErrorUtils.parseError(response.errorBody())));
+                    default:
+                        EventBus.getDefault().post(new CreateUserResponseEvent(response.body()));
+                        break;
                 }
             }
 

@@ -12,6 +12,7 @@ import java.util.Date;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import superafit.rar.com.br.superafit.R;
 import superafit.rar.com.br.superafit.converter.WodConverter;
 import superafit.rar.com.br.superafit.event.GetWodFailureEvent;
 import superafit.rar.com.br.superafit.event.GetWodResponseEvent;
@@ -72,12 +73,20 @@ public class WodController {
         getWodCall.enqueue(new Callback<GetWodResponse>() {
             @Override
             public void onResponse(Call<GetWodResponse> call, Response<GetWodResponse> response) {
-                Log.i("load", "onResponse: sucesso.");
-                if(response.code() == HttpURLConnection.HTTP_NO_CONTENT) {
-                    EventBus.getDefault().post(new GetWodResponseEvent());
-                } else {
-                    wodRepository.save(WodConverter.getInstance().toModel(response.body()));
-                    EventBus.getDefault().post(new GetWodResponseEvent(response.body()));
+
+                switch (response.code()) {
+                    case HttpURLConnection.HTTP_NO_CONTENT:
+                        Log.i("getRemoteWod", "onResponse: Não foram encontrados dados.");
+                        EventBus.getDefault().post(new GetWodResponseEvent(context.getString(R.string.msg_wod_not_found)));
+                        break;
+                    case HttpURLConnection.HTTP_UNAVAILABLE:
+                        Log.e("getRemoteWod", "onResponse: " + context.getString(R.string.msg_service_unavailable));
+                        EventBus.getDefault().post(new GetWodResponseEvent(context.getString(R.string.msg_service_unavailable)));
+                        break;
+                    default:
+                        wodRepository.save(WodConverter.getInstance().toModel(response.body()));
+                        EventBus.getDefault().post(new GetWodResponseEvent(response.body()));
+                        break;
                 }
             }
 
