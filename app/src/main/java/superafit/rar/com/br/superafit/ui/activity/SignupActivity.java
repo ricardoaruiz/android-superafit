@@ -86,7 +86,7 @@ public class SignupActivity extends FullscreenActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onCreateUserFailureEvent(CreateUserFailureEvent event) {
         terminateProgressDialog();
-        Snackbar.make(editLogin, R.string.msg_failed_login, Snackbar.LENGTH_LONG).show();
+        Snackbar.make(editLogin, R.string.msg_no_internet_connection, Snackbar.LENGTH_LONG).show();
     }
 
     private User getUser() {

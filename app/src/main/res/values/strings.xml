@@ -18,7 +18,7 @@
     <string name="msg_passwords_are_difrent">As senhas informadas são diferentes.</string>
     <string name="msg_required_confirm_password">A confirmação de senha deve ser informada com 6 caracteres.</string>
     <string name="msg_invalid_login">Usuário ou senha informados não conferem.</string>
-    <string name="msg_failed_login">Verifique sua conexão com a internet e tente novamente.</string>
+    <string name="msg_no_internet_connection">Verifique sua conexão com a internet e tente novamente.</string>
     <string name="msg_signup_generic_error">Ocorreu um erro ao criar o usuário. Por favor tente mais tarde.</string>
     <string name="msg_load_information_error">Não foi possível recuperar as informações.\nVerifique sua conexão com a internet.\nCaso o problema persista, tente mais tarde.</string>
     <string name="msg_schedule_not_found">Os horários ainda não foram publicados.</string>

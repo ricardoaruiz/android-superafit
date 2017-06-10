@@ -43,11 +43,11 @@ public class SignupController {
             public void onResponse(Call<CreateUserResponse> call, Response<CreateUserResponse> response) {
                 switch (response.code()) {
                     case HttpURLConnection.HTTP_UNAVAILABLE:
-                        Log.e("getRemoteWod", "onResponse: " + context.getString(R.string.msg_service_unavailable));
+                        Log.e("doSignup", "onResponse: " + context.getString(R.string.msg_service_unavailable));
                         EventBus.getDefault().post(new CreateUserResponseEvent(context.getString(R.string.msg_service_unavailable)));
                         break;
                     case 422:
-                        Log.e("getRemoteWod", "onResponse: Validações de criação de usuário.");
+                        Log.e("doSignup", "onResponse: Validações de criação de usuário.");
                         EventBus.getDefault().post(new CreateUserResponseEvent(ErrorUtils.parseError(response.errorBody())));
                     default:
                         EventBus.getDefault().post(new CreateUserResponseEvent(response.body()));

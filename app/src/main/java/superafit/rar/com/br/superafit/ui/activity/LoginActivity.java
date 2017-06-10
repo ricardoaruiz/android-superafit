@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,17 +13,13 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.net.HttpURLConnection;
-
 import superafit.rar.com.br.superafit.R;
 import superafit.rar.com.br.superafit.controller.DeviceController;
 import superafit.rar.com.br.superafit.controller.LoginController;
 import superafit.rar.com.br.superafit.event.LoginFailureEvent;
 import superafit.rar.com.br.superafit.event.LoginResponseEvent;
 import superafit.rar.com.br.superafit.exception.InvalidLoginException;
-import superafit.rar.com.br.superafit.model.Device;
 import superafit.rar.com.br.superafit.model.User;
-import superafit.rar.com.br.superafit.repository.LoginRepository;
 import superafit.rar.com.br.superafit.uitls.UIUtil;
 
 public class LoginActivity extends FullscreenActivity {
@@ -88,7 +82,7 @@ public class LoginActivity extends FullscreenActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLoginFailureEvent(LoginFailureEvent event) {
         terminateProgressDialog();
-        Snackbar.make(editLogin, R.string.msg_failed_login, Snackbar.LENGTH_LONG).show();
+        Snackbar.make(editLogin, R.string.msg_no_internet_connection, Snackbar.LENGTH_LONG).show();
     }
 
     private Button.OnClickListener btnOkClick = new View.OnClickListener() {
