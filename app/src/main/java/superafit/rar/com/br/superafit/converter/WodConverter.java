@@ -27,10 +27,10 @@ public class WodConverter implements Converter<Wod, GetWodResponse> {
     @Override
     public Wod toModel(GetWodResponse source) {
         Wod toReturn = new Wod();
-        toReturn.setType(source.getType());
-        toReturn.setDate(source.getDate());
-        toReturn.setRound(source.getRound());
-        toReturn.setMovements(MovementConverter.getInstance().toModel(source.getMovements()));
+//        toReturn.setType(source.getType());
+//        toReturn.setDate(source.getDate());
+//        toReturn.setRound(source.getRound());
+//        toReturn.setMovements(MovementConverter.getInstance().toModel(source.getMovements()));
         return toReturn;
     }
 
@@ -46,10 +46,10 @@ public class WodConverter implements Converter<Wod, GetWodResponse> {
     @Override
     public GetWodResponse fromModel(Wod source) {
         GetWodResponse toReturn = new GetWodResponse();
-        toReturn.setType(source.getType());
-        toReturn.setRound(source.getRound());
-        toReturn.setDate(source.getDate());
-        toReturn.setMovements(MovementConverter.getInstance().fromModel(source.getMovements()));
+//        toReturn.setType(source.getType());
+//        toReturn.setRound(source.getRound());
+//        toReturn.setDate(source.getDate());
+//        toReturn.setMovements(MovementConverter.getInstance().fromModel(source.getMovements()));
         return toReturn;
     }
 

@@ -15,13 +15,19 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import superafit.rar.com.br.superafit.R;
 import superafit.rar.com.br.superafit.adapter.WodMovementListItemAdapter;
 import superafit.rar.com.br.superafit.controller.WodController;
 import superafit.rar.com.br.superafit.event.GetWodFailureEvent;
 import superafit.rar.com.br.superafit.event.GetWodResponseEvent;
+import superafit.rar.com.br.superafit.service.model.response.GetWodDataResponse;
 import superafit.rar.com.br.superafit.service.model.response.GetWodResponse;
+import superafit.rar.com.br.superafit.service.model.response.MovementResponse;
 import superafit.rar.com.br.superafit.ui.layout.GenericMessageLayout;
+import superafit.rar.com.br.superafit.ui.model.WodItemList;
 
 /**
  * Created by ralmendro on 5/19/17.
@@ -95,16 +101,53 @@ public class WodFragment extends Fragment {
     }
 
     private void fillView() {
-        if(wod != null) {
-            textDate.setText(wod.getDate());
-            textRounds.setText(wod.getRound() + " rounds");
-            if(wod.getMovements() != null && !wod.getMovements().isEmpty()) {
-                listMovements.setAdapter(new WodMovementListItemAdapter(getContext(), wod.getMovements()));
-            }
+        final List<WodItemList> trainingList = getWodList();
+
+        if(trainingList != null && !trainingList.isEmpty()) {
+            listMovements.setAdapter(new WodMovementListItemAdapter(getContext(), trainingList));
             showMain();
         } else {
             showMessageWithRetry(getString(R.string.msg_wod_not_found));
         }
+
+//        if(wod != null) {
+//            textDate.setText(wod.getDate());
+//            textRounds.setText(wod.getRound() + " rounds");
+//            if(wod.getMovements() != null && !wod.getMovements().isEmpty()) {
+//                listMovements.setAdapter(new WodMovementListItemAdapter(getContext(), wod.getMovements()));
+//            }
+//            showMain();
+//        } else {
+//            showMessageWithRetry(getString(R.string.msg_wod_not_found));
+//        }
+    }
+
+    private List<WodItemList> getWodList() {
+        List<WodItemList> toReturn = null;
+        if(wod != null) {
+            toReturn = new ArrayList<>();
+            for(GetWodDataResponse data : wod.getData()) {
+
+                WodItemList header = new WodItemList();
+                header.setHeader(true);
+                header.setTrainingDate(data.getDate());
+                header.setTrainingDescription(data.getDescription());
+                header.setTrainingRound(data.getRound());
+                header.setTrainingType(data.getType());
+                toReturn.add(header);
+
+                for(MovementResponse m : data.getMovements()) {
+                    WodItemList item = new WodItemList();
+                    item.setHeader(false);
+                    item.setMovementName(m.getName());
+                    item.setMovementDescription(m.getDescription());
+                    item.setMovementTranslate(m.getTranslate());
+                    toReturn.add(item);
+                }
+
+            }
+        }
+        return toReturn;
     }
 
     @Override

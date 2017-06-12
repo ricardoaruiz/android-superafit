@@ -9,12 +9,12 @@ public interface ServiceConstants {
     /**
      * URL base para acesso as apis heroku
      */
-    public static final String API_BASE_URL = "https://superafit-api.herokuapp.com/";
+    //public static final String API_BASE_URL = "https://superafit-api.herokuapp.com/";
 
     /**
      * URL base para acesso as apis local
      */
-    //public static final String API_BASE_URL = "http://192.168.1.100:8080/";
+    public static final String API_BASE_URL = "http://172.16.4.64:8080/";
 
 
 }

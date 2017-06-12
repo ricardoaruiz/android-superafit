@@ -7,12 +7,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 import superafit.rar.com.br.superafit.R;
-import superafit.rar.com.br.superafit.service.model.response.MovementResponse;
+import superafit.rar.com.br.superafit.ui.model.WodItemList;
 
 /**
  * Created by ralmendro on 03/06/17.
@@ -22,21 +20,21 @@ public class WodMovementListItemAdapter extends BaseAdapter {
 
     private Context context;
 
-    private List<MovementResponse> movements;
+    private List<WodItemList> items;
 
-    public WodMovementListItemAdapter(Context context, List<MovementResponse> movements) {
+    public WodMovementListItemAdapter(Context context, List<WodItemList> items) {
         this.context = context;
-        this.movements = movements;
+        this.items = items;
     }
 
     @Override
     public int getCount() {
-        return movements.size();
+        return items.size();
     }
 
     @Override
-    public MovementResponse getItem(int position) {
-        return movements.get(position);
+    public WodItemList getItem(int position) {
+        return items.get(position);
     }
 
     @Override
@@ -47,16 +45,30 @@ public class WodMovementListItemAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        View view = LayoutInflater.from(context).inflate(
-                R.layout.fragment_wod_movement_list_item, parent, false);
+        WodItemList item = getItem(position);
 
-        MovementResponse movement = getItem(position);
+        View view = null;
 
-        TextView textRepetition = (TextView) view.findViewById(R.id.fragment_wod_list_movement_rep);
-        TextView textName = (TextView) view.findViewById(R.id.fragment_wod_list_movement_name);
+        if(item.isHeader()) {
+            view = LayoutInflater.from(context).inflate(
+                    R.layout.fragment_wod_movement_header_list_item, parent, false);
 
-        textRepetition.setText(movement.getQtRep() + " - ");
-        textName.setText(movement.getName());
+            TextView textType = (TextView) view.findViewById(R.id.fragment_wod_list_movement_header_type);
+            TextView textRounds = (TextView) view.findViewById(R.id.fragment_wod_list_movement_header_rounds);
+
+            textType.setText(item.getTrainingType());
+            textRounds.setText(item.getTrainingRound());
+
+        } else {
+            view = LayoutInflater.from(context).inflate(
+                    R.layout.fragment_wod_movement_list_item, parent, false);
+
+            TextView textRepetition = (TextView) view.findViewById(R.id.fragment_wod_list_movement_rep);
+            TextView textName = (TextView) view.findViewById(R.id.fragment_wod_list_movement_name);
+
+            textRepetition.setText(item.getMovementQtRep() + " - ");
+            textName.setText(item.getMovementName());
+        }
 
         return view;
     }
