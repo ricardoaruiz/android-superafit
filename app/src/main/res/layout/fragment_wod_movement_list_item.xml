@@ -3,30 +3,28 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingLeft="62dp">
 
     <TextView
         android:id="@+id/fragment_wod_list_movement_rep"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_weight="1"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
         android:gravity="center"
-        android:background="@color/colorPrimary"
-        android:text="10"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        android:textColor="@color/branco"/>
+        android:text="10 -"
+        android:textSize="15dp"
+        android:textColor="@color/black"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"/>
 
     <TextView
         android:id="@+id/fragment_wod_list_movement_name"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_weight="6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:background="@color/colorPrimary"
         android:text="Movement"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        android:textColor="@color/branco"/>
-
+        android:textSize="15dp"
+        android:textColor="@color/black"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"/>
 </LinearLayout>

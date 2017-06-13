@@ -8,154 +8,57 @@
 
     <LinearLayout
         android:id="@+id/fragment_wod_main"
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:visibility="visible">
 
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/fragment_wod_swipe"
-            android:layout_width="match_parent"
-            android:layout_height="98dp">
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <android.support.v7.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:cardElevation="2dp"
-                    app:cardCornerRadius="5dp"
-                    app:cardUseCompatPadding="true"
-                    app:cardBackgroundColor="@color/colorPrimary">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:id="@+id/imageView"
-                                android:layout_width="90dp"
-                                android:layout_height="90dp"
-                                app:srcCompat="@drawable/logo" />
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal">
-
-                                    <ImageView
-                                        android:layout_width="45dp"
-                                        android:layout_height="45dp"
-                                        android:src="@drawable/ic_calendario_branco" />
-
-                                    <TextView
-                                        android:id="@+id/fragment_wod_date"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="45dp"
-                                        android:gravity="center_vertical"
-                                        android:textColor="@color/branco"
-                                        android:textSize="20dp"
-                                        android:textStyle="bold"/>
-
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal">
-
-                                    <ImageView
-                                        android:layout_width="45dp"
-                                        android:layout_height="45dp"
-                                        android:src="@drawable/ic_repeticao_branco" />
-
-                                    <TextView
-                                        android:id="@+id/fragment_wod_rounds"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="45dp"
-                                        android:gravity="center_vertical"
-                                        android:textColor="@color/branco"
-                                        android:textSize="20dp"
-                                        android:textStyle="bold" />
-
-                                </LinearLayout>
-                            </LinearLayout>
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                </android.support.v7.widget.CardView>
-
-            </FrameLayout>
-
-        </android.support.v4.widget.SwipeRefreshLayout>
-
+        <!-- Logo mais a data do treinamento -->
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardElevation="2dp"
+            app:cardElevation="4dp"
             app:cardCornerRadius="5dp"
-            app:cardUseCompatPadding="true"
-            app:cardBackgroundColor="@color/colorPrimary">
+            app:cardUseCompatPadding="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
-                <LinearLayout
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    app:srcCompat="@drawable/logo" />
+
+                <TextView
+                    android:id="@+id/fragment_wod_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:layout_weight="1"
-                        android:src="@drawable/ic_alteres_branco"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="3"
-                        android:text="@string/items"
-                        android:textSize="32dp"
-                        android:textStyle="bold"
-                        android:textColor="@color/branco"
-                        android:gravity="center"
-                        android:layout_marginBottom="10dp"/>
-
-                    <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:layout_weight="1"
-                        android:src="@drawable/ic_alteres_branco"/>
-
-                </LinearLayout>
-
-                <ListView
-                    android:id="@+id/fragment_wod_list_movement"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:text="12/06/2017"
+                    android:textSize="30dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="28dp"
+                    android:paddingLeft="30dp"/>
 
             </LinearLayout>
+        </android.support.v7.widget.CardView>
 
+        <!-- Lista de treinamento -->
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="5dp"
+            app:cardUseCompatPadding="true">
+
+            <ListView
+                android:id="@+id/fragment_wod_list_movement"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="@null"/>
         </android.support.v7.widget.CardView>
 
     </LinearLayout>
@@ -165,6 +68,5 @@
         android:id="@+id/framgent_wod_generic_message"
         layout="@layout/layout_generic_message"
         android:visibility="gone"/>
-
 
 </LinearLayout>

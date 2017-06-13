@@ -9,46 +9,15 @@ import java.util.List;
 
 public class Wod implements Serializable {
 
-    private static final long serialVersionUID = -814749243002123569L;
+    private static final long serialVersionUID = 1166556574939386096L;
 
-    private String date;
+    private List<WodItem> data;
 
-    private String type;
-
-    private String round;
-
-    private List<WodMovement> movements;
-
-    public String getDate() {
-        return date;
+    public List<WodItem> getData() {
+        return data;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setData(List<WodItem> data) {
+        this.data = data;
     }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getRound() {
-        return round;
-    }
-
-    public void setRound(String round) {
-        this.round = round;
-    }
-
-    public List<WodMovement> getMovements() {
-        return movements;
-    }
-
-    public void setMovements(List<WodMovement> movements) {
-        this.movements = movements;
-    }
-
 }

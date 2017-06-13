@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardElevation="2dp"
-    app:cardCornerRadius="5dp"
-    app:cardUseCompatPadding="true"
-    app:cardBackgroundColor="@color/colorPrimary">
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#c0c0c0"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,10 +21,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Segunda-feira"
-            android:textSize="35sp"
+            android:textSize="30sp"
             android:textStyle="bold"
-            android:textColor="@color/branco"
-            android:layout_marginLeft="56dp"/>
+            android:textColor="@color/black"
+            android:layout_marginLeft="80dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -31,22 +32,24 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:src="@drawable/ic_relogio_branco" />
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/ic_relogio_preto" />
 
             <TextView
                 android:id="@+id/fragment_schedules_week_day_schedule"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="das 06:00 as 07:00\ndas 07:00 as 08:00\ndas 08:00 as 09:00"
-                android:textSize="20sp"
-                android:textColor="@color/branco"
-                android:layout_marginTop="5dp"/>
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:layout_marginTop="5dp"
+                android:paddingLeft="20dp"/>
 
         </LinearLayout>
 
     </LinearLayout>
 
-</android.support.v7.widget.CardView>
+</LinearLayout>
+
 

@@ -32,7 +32,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
         android:background="@android:color/black"
-        android:textColor="@color/branco"
+        android:textColor="@color/white"
         android:textStyle="bold"
         android:text="@string/tentar_novamente"
         android:visibility="gone"/>

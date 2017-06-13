@@ -2,15 +2,11 @@ package superafit.rar.com.br.superafit.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -39,7 +35,6 @@ public class SchedulesFragment extends Fragment {
     private ListView list;
     private List<ScheduleResponse> listSchedule;
 
-    private SwipeRefreshLayout swipe;
     private View main;
 
     public static SchedulesFragment newInstance() {
@@ -59,16 +54,7 @@ public class SchedulesFragment extends Fragment {
         genericMessage = new GenericMessageLayout(view, R.id.framgent_schedule_generic_message);
 
         list = (ListView) view.findViewById(R.id.fragment_schedules_list);
-        swipe = (SwipeRefreshLayout) view.findViewById(R.id.fragment_schedules_swipe);
-
         main = view.findViewById(R.id.fragment_schedule_main);
-
-        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                load();
-            }
-        });
 
         load();
 
@@ -80,7 +66,6 @@ public class SchedulesFragment extends Fragment {
         if(event.hasData()) {
             listSchedule = event.hasData() ? event.getData().getSchedules() : null;
             fillList();
-            stopSwipe();
         } else {
             showMessageWithRetry(event.getMessage());
         }
@@ -88,7 +73,6 @@ public class SchedulesFragment extends Fragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onListScheduleFailureEvent(ListScheduleFailureEvent event) {
-        stopSwipe();
         showMessageWithRetry(getString(R.string.msg_remote_error));
     }
 
@@ -132,12 +116,5 @@ public class SchedulesFragment extends Fragment {
                         load();
                     }
                 });
-    }
-
-
-    private void stopSwipe() {
-        if(swipe != null && swipe.isRefreshing()) {
-            swipe.setRefreshing(false);
-        }
     }
 }

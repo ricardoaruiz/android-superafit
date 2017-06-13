@@ -40,9 +40,7 @@ public class WodFragment extends Fragment {
     private View view;
     private View main;
 
-    private SwipeRefreshLayout swipe;
     private TextView textDate;
-    private TextView textRounds;
     private ListView listMovements;
 
     private GetWodResponse wod;
@@ -64,13 +62,8 @@ public class WodFragment extends Fragment {
         genericMessage = new GenericMessageLayout(view, R.id.framgent_wod_generic_message);
 
         textDate = (TextView) view.findViewById(R.id.fragment_wod_date);
-        textRounds = (TextView) view.findViewById(R.id.fragment_wod_rounds);
         listMovements = (ListView) view.findViewById(R.id.fragment_wod_list_movement);
-
         main = view.findViewById(R.id.fragment_wod_main);
-
-        swipe = (SwipeRefreshLayout) view.findViewById(R.id.fragment_wod_swipe);
-        swipe.setOnRefreshListener(getRefreshListener());
 
         load();
 
@@ -82,8 +75,6 @@ public class WodFragment extends Fragment {
         if(event.hasData()) {
             wod = event.getData();
             fillView();
-            stopSwipe();
-
         } else {
             showMessageWithRetry(event.getMessage());
         }
@@ -91,7 +82,6 @@ public class WodFragment extends Fragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onGetWodFailureEvent(GetWodFailureEvent event) {
-        stopSwipe();
         showMessageWithRetry(getString(R.string.msg_remote_error));
     }
 
@@ -104,22 +94,12 @@ public class WodFragment extends Fragment {
         final List<WodItemList> trainingList = getWodList();
 
         if(trainingList != null && !trainingList.isEmpty()) {
+            textDate.setText(trainingList.get(0).getTrainingDate());
             listMovements.setAdapter(new WodMovementListItemAdapter(getContext(), trainingList));
             showMain();
         } else {
             showMessageWithRetry(getString(R.string.msg_wod_not_found));
         }
-
-//        if(wod != null) {
-//            textDate.setText(wod.getDate());
-//            textRounds.setText(wod.getRound() + " rounds");
-//            if(wod.getMovements() != null && !wod.getMovements().isEmpty()) {
-//                listMovements.setAdapter(new WodMovementListItemAdapter(getContext(), wod.getMovements()));
-//            }
-//            showMain();
-//        } else {
-//            showMessageWithRetry(getString(R.string.msg_wod_not_found));
-//        }
     }
 
     private List<WodItemList> getWodList() {
@@ -142,6 +122,7 @@ public class WodFragment extends Fragment {
                     item.setMovementName(m.getName());
                     item.setMovementDescription(m.getDescription());
                     item.setMovementTranslate(m.getTranslate());
+                    item.setMovementQtRep(m.getQtRep());
                     toReturn.add(item);
                 }
 
@@ -188,9 +169,4 @@ public class WodFragment extends Fragment {
         };
     }
 
-    private void stopSwipe() {
-        if(swipe.isRefreshing()) {
-            swipe.setRefreshing(false);
-        }
-    }
 }

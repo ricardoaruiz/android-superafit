@@ -49,11 +49,11 @@ public class WodController {
         Date today = DateUtil.toDate(DateUtil.fromDate(new Date(), DateUtil.Format.DIA_MES_ANO), DateUtil.Format.DIA_MES_ANO);
         Date lastUpdate = wodRepository.getLastUpdate();
 
-//        if(lastUpdate != null && lastUpdate.equals(today)){
-//            getLocalWod();
-//        } else {
+        if(lastUpdate != null && lastUpdate.equals(today)){
+            getLocalWod();
+        } else {
             getRemoteWod();
-//        }
+        }
     }
 
     private void getLocalWod() {

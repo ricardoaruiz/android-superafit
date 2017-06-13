@@ -54,10 +54,14 @@ public class WodMovementListItemAdapter extends BaseAdapter {
                     R.layout.fragment_wod_movement_header_list_item, parent, false);
 
             TextView textType = (TextView) view.findViewById(R.id.fragment_wod_list_movement_header_type);
-            TextView textRounds = (TextView) view.findViewById(R.id.fragment_wod_list_movement_header_rounds);
+            TextView textDescription = (TextView) view.findViewById(R.id.fragment_wod_list_movement_header_description);
 
-            textType.setText(item.getTrainingType());
-            textRounds.setText(item.getTrainingRound());
+            textType.setText(item.getTrainingType() + " - " + item.getTrainingRound() + " rounds");
+            if(item.getTrainingDescription() != null) {
+                textDescription.setText(item.getTrainingDescription());
+            } else {
+                textDescription.setVisibility(View.GONE);
+            }
 
         } else {
             view = LayoutInflater.from(context).inflate(
@@ -66,7 +70,7 @@ public class WodMovementListItemAdapter extends BaseAdapter {
             TextView textRepetition = (TextView) view.findViewById(R.id.fragment_wod_list_movement_rep);
             TextView textName = (TextView) view.findViewById(R.id.fragment_wod_list_movement_name);
 
-            textRepetition.setText(item.getMovementQtRep() + " - ");
+            textRepetition.setText(item.getMovementQtRep() + " -");
             textName.setText(item.getMovementName());
         }
 

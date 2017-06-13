@@ -14,7 +14,7 @@ public interface ServiceConstants {
     /**
      * URL base para acesso as apis local
      */
-    public static final String API_BASE_URL = "http://172.16.4.64:8080/";
+    public static final String API_BASE_URL = "http://192.168.1.104:8080/";
 
 
 }
