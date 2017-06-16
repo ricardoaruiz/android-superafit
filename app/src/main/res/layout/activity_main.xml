@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:tabMode="fixed"
-        app:tabGravity="fill"/>
+        app:tabGravity="fill"
+        app:tabTextAppearance="@style/CustomTextStyle"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
