@@ -104,7 +104,7 @@ public class WodFragment extends Fragment {
 
     private List<WodItemList> getWodList() {
         List<WodItemList> toReturn = null;
-        if(wod != null) {
+        if(wod != null && wod.getData() != null) {
             toReturn = new ArrayList<>();
             for(GetWodDataResponse data : wod.getData()) {
 

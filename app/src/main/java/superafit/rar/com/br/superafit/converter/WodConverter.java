@@ -28,20 +28,23 @@ public class WodConverter implements Converter<Wod, GetWodResponse> {
 
     @Override
     public Wod toModel(GetWodResponse source) {
-        Wod toReturn = new Wod();
-        List<WodItem> wodItemList = new ArrayList<>();
+        Wod toReturn = null;
+        if(source.getData() != null) {
+            toReturn = new Wod();
+            List<WodItem> wodItemList = new ArrayList<>();
 
-        for(GetWodDataResponse item : source.getData()) {
-            WodItem wodItem = new WodItem();
-            wodItem.setType(item.getType());
-            wodItem.setDate(item.getDate());
-            wodItem.setRound(item.getRound());
-            wodItem.setDescription(item.getDescription());
-            wodItem.setMovements(MovementConverter.getInstance().toModel(item.getMovements()));
-            wodItemList.add(wodItem);
+            for (GetWodDataResponse item : source.getData()) {
+                WodItem wodItem = new WodItem();
+                wodItem.setType(item.getType());
+                wodItem.setDate(item.getDate());
+                wodItem.setRound(item.getRound());
+                wodItem.setDescription(item.getDescription());
+                wodItem.setMovements(MovementConverter.getInstance().toModel(item.getMovements()));
+                wodItemList.add(wodItem);
+            }
+
+            toReturn.setData(wodItemList);
         }
-
-        toReturn.setData(wodItemList);
         return toReturn;
     }
 
