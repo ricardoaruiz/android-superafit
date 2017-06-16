@@ -3,9 +3,11 @@ package superafit.rar.com.br.superafit.ui.activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,6 +28,8 @@ import superafit.rar.com.br.superafit.uitls.UIUtil;
 
 public class SignupActivity extends FullscreenActivity {
 
+    private static final String TAG = "SignupActivity";
+
     private SignupController signupController;
     private LoginRepository loginRepository;
     private DeviceController deviceController;
@@ -35,6 +39,8 @@ public class SignupActivity extends FullscreenActivity {
     private EditText editConfirmPassord;
 
     private ProgressDialog progressDialog;
+
+    private boolean retired = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +72,7 @@ public class SignupActivity extends FullscreenActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onCreateUserResponseEvent(CreateUserResponseEvent event) {
         if(event.hasData()) {
+            retired = false;
             loginRepository.login(getUser(event.getData().getUserId()));
             deviceController.syncronize();
 
@@ -73,13 +80,22 @@ public class SignupActivity extends FullscreenActivity {
             startActivity(mainActivity);
             finish();
         } else {
-            terminateProgressDialog();
-            if(event.hasValidations()) {
+            if(event.isUnavaiable() && !retired) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        retired = true;
+                        signupController.doSignup(getUser());
+                    }
+                },10000);
+            } else if(event.hasValidations()) {
+                terminateProgressDialog();
                 createMessageErrorDialog(event.getValidations().getFormatedErrors());
             } else {
+                retired = false;
+                terminateProgressDialog();
                 Snackbar.make(editLogin, event.getMessage(), Snackbar.LENGTH_LONG).show();
             }
-
         }
     }
 

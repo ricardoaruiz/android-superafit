@@ -13,7 +13,7 @@ import superafit.rar.com.br.superafit.R;
  * Created by ralmendro on 5/19/17.
  */
 
-public class MessagesFragment extends Fragment {
+public class MessagesFragment extends Fragment implements LoadableFragment {
 
     private MessagesFragment() {
     }
@@ -26,5 +26,15 @@ public class MessagesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_messages, container, false);
+    }
+
+    @Override
+    public void load() {
+
+    }
+
+    @Override
+    public void forceRemoteLoad() {
+
     }
 }

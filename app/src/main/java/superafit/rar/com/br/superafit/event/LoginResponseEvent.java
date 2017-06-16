@@ -12,8 +12,15 @@ public class LoginResponseEvent {
 
     private String message;
 
+    private boolean unavaiable;
+
     public LoginResponseEvent(LoginResponse loginResponse) {
         this.loginResponse = loginResponse;
+    }
+
+    public LoginResponseEvent(String message, boolean unavaiable) {
+        this.message = message;
+        this.unavaiable = unavaiable;
     }
 
     public LoginResponseEvent(String message) {
@@ -34,5 +41,9 @@ public class LoginResponseEvent {
 
     public boolean hasErrorMessage() {
         return this.message != null;
+    }
+
+    public boolean isUnavaiable() {
+        return unavaiable;
     }
 }

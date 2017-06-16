@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/common_menu_atualizar"
+        android:icon="@drawable/ic_repeticao_branco"
+        android:title="Atualizar"
+        app:showAsAction="always"/>
+
+    <item
         android:id="@+id/common_menu_sair"
         android:icon="@drawable/ic_logout_branco"
         android:title="Sair"

@@ -46,13 +46,21 @@ public class WodController {
     }
 
     public void load() {
-        Date today = DateUtil.toDate(DateUtil.fromDate(new Date(), DateUtil.Format.DIA_MES_ANO), DateUtil.Format.DIA_MES_ANO);
-        Date lastUpdate = wodRepository.getLastUpdate();
+        load(false);
+    }
 
-        if(lastUpdate != null && lastUpdate.equals(today)){
-            getLocalWod();
-        } else {
+    public void load(boolean forceRemote) {
+        if(forceRemote) {
             getRemoteWod();
+        } else {
+            Date today = DateUtil.toDate(DateUtil.fromDate(new Date(), DateUtil.Format.DIA_MES_ANO), DateUtil.Format.DIA_MES_ANO);
+            Date lastUpdate = wodRepository.getLastUpdate();
+
+            if (lastUpdate != null && lastUpdate.equals(today)) {
+                getLocalWod();
+            } else {
+                getRemoteWod();
+            }
         }
     }
 
@@ -81,7 +89,7 @@ public class WodController {
                         break;
                     case HttpURLConnection.HTTP_UNAVAILABLE:
                         Log.e("getRemoteWod", "onResponse: " + context.getString(R.string.msg_service_unavailable));
-                        EventBus.getDefault().post(new GetWodResponseEvent(context.getString(R.string.msg_service_unavailable)));
+                        EventBus.getDefault().post(new GetWodResponseEvent(context.getString(R.string.msg_service_unavailable), true));
                         break;
                     default:
                         wodRepository.save(WodConverter.getInstance().toModel(response.body()));

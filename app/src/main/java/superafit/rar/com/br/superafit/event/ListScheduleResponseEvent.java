@@ -15,11 +15,18 @@ public class ListScheduleResponseEvent {
 
     private String message;
 
+    private boolean unavailable;
+
     public ListScheduleResponseEvent() {
     }
 
     public ListScheduleResponseEvent(ListScheduleResponse schedules) {
         this.data = schedules;
+    }
+
+    public ListScheduleResponseEvent(String message, boolean unavailable) {
+        this.message = message;
+        this.unavailable = unavailable;
     }
 
     public ListScheduleResponseEvent(String message) {
@@ -38,5 +45,7 @@ public class ListScheduleResponseEvent {
         return this.data != null && !this.data.getSchedules().isEmpty();
     }
 
-
+    public boolean isUnavailable() {
+        return unavailable;
+    }
 }

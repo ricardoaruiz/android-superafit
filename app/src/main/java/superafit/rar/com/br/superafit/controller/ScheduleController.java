@@ -43,17 +43,25 @@ public class ScheduleController {
     }
 
     public void load() {
-        final ListScheduleResponse schedules = scheduleRepository.getSchedules();
+        load(false);
+    }
 
-        if(schedules != null) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    EventBus.getDefault().post(new ListScheduleResponseEvent(schedules));
-                }
-            },1000);
-        } else {
+    public void load(boolean forceRemote) {
+        if(forceRemote) {
             getRemoteSchedule();
+        } else {
+            final ListScheduleResponse schedules = scheduleRepository.getSchedules();
+
+            if (schedules != null) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        EventBus.getDefault().post(new ListScheduleResponseEvent(schedules));
+                    }
+                }, 1000);
+            } else {
+                getRemoteSchedule();
+            }
         }
     }
 
@@ -69,7 +77,7 @@ public class ScheduleController {
                         break;
                     case HttpURLConnection.HTTP_UNAVAILABLE:
                         Log.e("getRemoteSchedule", "onResponse: " + context.getString(R.string.msg_service_unavailable));
-                        EventBus.getDefault().post(new ListScheduleResponseEvent(context.getString(R.string.msg_service_unavailable)));
+                        EventBus.getDefault().post(new ListScheduleResponseEvent(context.getString(R.string.msg_service_unavailable), true));
                         break;
                     default:
                         ListScheduleResponse data = response.body();

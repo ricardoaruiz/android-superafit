@@ -2,9 +2,11 @@ package superafit.rar.com.br.superafit.ui.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,14 +26,16 @@ import superafit.rar.com.br.superafit.uitls.UIUtil;
 
 public class LoginActivity extends FullscreenActivity {
 
+    private static final String TAG = "LoginActivity";
     private LoginController loginController;
-
     private DeviceController deviceController;
 
     private EditText editLogin;
     private EditText editPassword;
     private ProgressDialog progressDialog;
     private Button btnOk;
+
+    private boolean retried = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,9 +68,21 @@ public class LoginActivity extends FullscreenActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLoginResponseEvent(LoginResponseEvent event) {
         if(event.hasErrorMessage()) {
-            terminateProgressDialog();
-            Snackbar.make(editLogin, event.getMessage(), Snackbar.LENGTH_LONG).show();
+            if(event.isUnavaiable() && !retried) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        retried = true;
+                        loginController.doLogin(getUser());
+                    }
+                }, 10000);
+            } else {
+                retried = false;
+                terminateProgressDialog();
+                Snackbar.make(editLogin, event.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
         } else {
+            retried = false;
             deviceController.syncronize();
             final Intent mainActivity = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(mainActivity);

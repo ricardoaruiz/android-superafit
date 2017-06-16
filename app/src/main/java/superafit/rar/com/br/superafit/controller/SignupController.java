@@ -44,7 +44,7 @@ public class SignupController {
                 switch (response.code()) {
                     case HttpURLConnection.HTTP_UNAVAILABLE:
                         Log.e("doSignup", "onResponse: " + context.getString(R.string.msg_service_unavailable));
-                        EventBus.getDefault().post(new CreateUserResponseEvent(context.getString(R.string.msg_service_unavailable)));
+                        EventBus.getDefault().post(new CreateUserResponseEvent(context.getString(R.string.msg_service_unavailable), true));
                         break;
                     case 422:
                         Log.e("doSignup", "onResponse: Validações de criação de usuário.");

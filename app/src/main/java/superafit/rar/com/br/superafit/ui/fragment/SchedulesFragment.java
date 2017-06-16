@@ -1,6 +1,7 @@
 package superafit.rar.com.br.superafit.ui.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -26,9 +27,7 @@ import superafit.rar.com.br.superafit.ui.layout.GenericMessageLayout;
  * Created by ralmendro on 5/19/17.
  */
 
-public class SchedulesFragment extends Fragment {
-
-    private ScheduleController scheduleController;
+public class SchedulesFragment extends Fragment implements LoadableFragment {
 
     private GenericMessageLayout genericMessage;
 
@@ -36,6 +35,8 @@ public class SchedulesFragment extends Fragment {
     private List<ScheduleResponse> listSchedule;
 
     private View main;
+
+    private boolean retried;
 
     public static SchedulesFragment newInstance() {
         return new SchedulesFragment();
@@ -64,10 +65,22 @@ public class SchedulesFragment extends Fragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onListScheduleResponseEvent(ListScheduleResponseEvent event) {
         if(event.hasData()) {
+            retried = false;
             listSchedule = event.hasData() ? event.getData().getSchedules() : null;
             fillList();
         } else {
-            showMessageWithRetry(event.getMessage());
+            if(event.isUnavailable() && !retried) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        retried = true;
+                        ScheduleController.getInstance(getContext()).load();
+                    }
+                },10000);
+            } else {
+                retried = false;
+                showMessageWithRetry(event.getMessage());
+            }
         }
     }
 
@@ -76,10 +89,16 @@ public class SchedulesFragment extends Fragment {
         showMessageWithRetry(getString(R.string.msg_remote_error));
     }
 
-    private void load() {
+    @Override
+    public void load() {
         showLoading();
-        scheduleController = ScheduleController.getInstance(getContext());
-        scheduleController.load();
+        ScheduleController.getInstance(getContext()).load();
+    }
+
+    @Override
+    public void forceRemoteLoad() {
+        showLoading();
+        ScheduleController.getInstance(getContext()).load(true);
     }
 
     private void fillList() {

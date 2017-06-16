@@ -36,14 +36,17 @@ public class MovementConverter implements Converter<WodMovement, MovementRespons
 
     @Override
     public List<WodMovement> toModel(List<MovementResponse> source) {
-        List<WodMovement> toReturn = new ArrayList<WodMovement>();
-        for(MovementResponse movement : source) {
-            WodMovement mov = new WodMovement();
-            mov.setName(movement.getName());
-            mov.setDescription(movement.getDescription());
-            mov.setTranslate(movement.getDescription());
-            mov.setQtRep(movement.getQtRep());
-            toReturn.add(mov);
+        List<WodMovement> toReturn = null;
+        if(source != null) {
+            toReturn = new ArrayList<WodMovement>();
+            for (MovementResponse movement : source) {
+                WodMovement mov = new WodMovement();
+                mov.setName(movement.getName());
+                mov.setDescription(movement.getDescription());
+                mov.setTranslate(movement.getDescription());
+                mov.setQtRep(movement.getQtRep());
+                toReturn.add(mov);
+            }
         }
         return toReturn;
     }

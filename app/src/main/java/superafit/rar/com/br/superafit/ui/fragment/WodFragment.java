@@ -1,6 +1,7 @@
 package superafit.rar.com.br.superafit.ui.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -33,7 +34,7 @@ import superafit.rar.com.br.superafit.ui.model.WodItemList;
  * Created by ralmendro on 5/19/17.
  */
 
-public class WodFragment extends Fragment {
+public class WodFragment extends Fragment implements LoadableFragment {
 
     private GenericMessageLayout genericMessage;
 
@@ -44,6 +45,8 @@ public class WodFragment extends Fragment {
     private ListView listMovements;
 
     private GetWodResponse wod;
+
+    private boolean retried;
 
     public static WodFragment newInstance() {
         return new WodFragment();
@@ -73,10 +76,22 @@ public class WodFragment extends Fragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onGetWodResponseEvent(GetWodResponseEvent event) {
         if(event.hasData()) {
+            retried = false;
             wod = event.getData();
             fillView();
         } else {
-            showMessageWithRetry(event.getMessage());
+            if(event.isUnavailable() && !retried) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        retried = true;
+                        WodController.getInstance(getContext()).load();
+                    }
+                }, 10000);
+            } else {
+                retried = false;
+                showMessageWithRetry(event.getMessage());
+            }
         }
     }
 
@@ -85,9 +100,16 @@ public class WodFragment extends Fragment {
         showMessageWithRetry(getString(R.string.msg_remote_error));
     }
 
-    private void load() {
+    @Override
+    public void load() {
         showLoading();
         WodController.getInstance(getContext()).load();
+    }
+
+    @Override
+    public void forceRemoteLoad() {
+        showLoading();
+        WodController.getInstance(getContext()).load(true);
     }
 
     private void fillView() {

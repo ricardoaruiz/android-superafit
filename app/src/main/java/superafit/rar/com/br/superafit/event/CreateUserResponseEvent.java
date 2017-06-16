@@ -15,12 +15,19 @@ public class CreateUserResponseEvent {
 
     private String message;
 
+    private boolean unavaiable;
+
     public CreateUserResponseEvent(CreateUserResponse body) {
         this.data = body;
     }
 
     public CreateUserResponseEvent(ErrorsResponse validations) {
         this.validations = validations;
+    }
+
+    public CreateUserResponseEvent(String message, boolean unavaiable) {
+        this.message = message;
+        this.unavaiable = unavaiable;
     }
 
     public CreateUserResponseEvent(String message) {
@@ -45,5 +52,9 @@ public class CreateUserResponseEvent {
 
     public boolean hasValidations() {
         return validations != null;
+    }
+
+    public boolean isUnavaiable() {
+        return unavaiable;
     }
 }

@@ -15,8 +15,6 @@ public class GenericMessageLayout {
 
     private final View view;
 
-    private TextView textMessage;
-
     private View layout;
 
     public GenericMessageLayout(View view, int layoutId) {

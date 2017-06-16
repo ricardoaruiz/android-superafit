@@ -12,10 +12,17 @@ public class GetWodResponseEvent {
 
     private String message;
 
+    private boolean unavailable;
+
     public GetWodResponseEvent() { /*Nothing*/ }
 
     public GetWodResponseEvent(GetWodResponse wod) {
         this.data = wod;
+    }
+
+    public GetWodResponseEvent(String message, boolean unavailable) {
+        this.message = message;
+        this.unavailable = unavailable;
     }
 
     public GetWodResponseEvent(String message) {
@@ -32,5 +39,9 @@ public class GetWodResponseEvent {
 
     public String getMessage() {
         return message;
+    }
+
+    public boolean isUnavailable() {
+        return unavailable;
     }
 }

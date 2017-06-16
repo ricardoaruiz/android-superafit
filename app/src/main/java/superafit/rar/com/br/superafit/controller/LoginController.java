@@ -78,7 +78,7 @@ public class LoginController {
                         break;
                     case HttpURLConnection.HTTP_UNAVAILABLE:
                         Log.e("doLogin", "onResponse: " + context.getString(R.string.msg_service_unavailable));
-                        EventBus.getDefault().post(new LoginResponseEvent(context.getString(R.string.msg_service_unavailable)));
+                        EventBus.getDefault().post(new LoginResponseEvent(context.getString(R.string.msg_service_unavailable), true));
                         break;
                     default:
                         Log.i("doLogin", "onResponse: sucesso");
