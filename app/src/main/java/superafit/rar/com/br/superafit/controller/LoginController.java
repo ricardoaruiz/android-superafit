@@ -50,13 +50,13 @@ public class LoginController {
             StringBuilder msgError = new StringBuilder();
 
             if(!user.isLoginValid()) {
-                msgError.append(context.getString(R.string.msg_required_login));
+                msgError.append("- ").append(context.getString(R.string.msg_invalid_email_login));
             }
             if(!user.isPasswordValid()) {
                 if(msgError.length() > 0) {
-                    msgError.append("\n");
+                    msgError.append("\n\n");
                 }
-                msgError.append(context.getString(R.string.msg_required_password));
+                msgError.append("- ").append(context.getString(R.string.msg_required_password));
             }
 
             throw new InvalidLoginException(msgError.toString());

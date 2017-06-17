@@ -1,11 +1,13 @@
 package superafit.rar.com.br.superafit.ui.activity;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -109,10 +111,24 @@ public class LoginActivity extends FullscreenActivity {
             loginController.doLogin(getUser());
         } catch(InvalidLoginException e) {
             terminateProgressDialog();
-            Snackbar.make(editLogin, e.getMessage(), Snackbar.LENGTH_SHORT).show();
+            createMessageErrorDialog(e.getMessage());
         }
         }
     };
+
+    private void createMessageErrorDialog(String message) {
+        final AlertDialog alertMessage = new AlertDialog.Builder(LoginActivity.this).create();
+        alertMessage.setTitle(getString(R.string.login));
+        alertMessage.setMessage(message);
+        alertMessage.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.ok), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                alertMessage.dismiss();
+            }
+        });
+        alertMessage.setCancelable(false);
+        alertMessage.show();
+    }
 
     private Button.OnClickListener btnSignupClick = new View.OnClickListener() {
         @Override

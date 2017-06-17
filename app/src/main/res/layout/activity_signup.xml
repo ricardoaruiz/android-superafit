@@ -30,7 +30,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Login"
+        android:text="@string/email"
         android:textColor="@color/white"
         android:textSize="18sp"
         android:layout_marginLeft="50dp"
@@ -43,14 +43,15 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
+        android:inputType="textEmailAddress"
+        android:maxLength="50"
         android:textColor="@color/white"
-        android:textSize="18dp"
-        android:maxLength="15"/>
+        android:textSize="18dp" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Senha"
+        android:text="@string/password"
         android:textColor="@color/white"
         android:textSize="18sp"
         android:layout_marginLeft="50dp"
@@ -71,7 +72,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Confirme a senha"
+        android:text="@string/password_confirmation"
         android:textColor="@color/white"
         android:textSize="18sp"
         android:layout_marginLeft="50dp"

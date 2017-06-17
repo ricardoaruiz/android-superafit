@@ -18,7 +18,6 @@ import superafit.rar.com.br.superafit.model.User;
 import superafit.rar.com.br.superafit.service.ServiceFactory;
 import superafit.rar.com.br.superafit.service.model.request.CreateUserRequest;
 import superafit.rar.com.br.superafit.service.model.response.CreateUserResponse;
-import superafit.rar.com.br.superafit.service.model.response.ErrorsResponse;
 import superafit.rar.com.br.superafit.uitls.ErrorUtils;
 
 /**
@@ -74,26 +73,26 @@ public class SignupController {
         StringBuilder msgError = new StringBuilder();
 
         if(!user.isLoginValid()) {
-            msgError.append("- ").append(context.getString(R.string.msg_required_login));
+            msgError.append("- ").append(context.getString(R.string.msg_invalid_email_login));
         }
 
         if(!user.isPasswordValid()) {
             if(msgError.length() > 0) {
-                msgError.append("\n");
+                msgError.append("\n\n");
             }
             msgError.append("- ").append(context.getString(R.string.msg_required_password));
         }
 
         if(!user.isConfirmPasswordValid()) {
             if(msgError.length() > 0) {
-                msgError.append("\n");
+                msgError.append("\n\n");
             }
             msgError.append("- ").append(context.getString(R.string.msg_required_confirm_password));
         }
 
         if(!user.isPasswordsAreEquals()) {
             if(msgError.length() > 0) {
-                msgError.append("\n");
+                msgError.append("\n\n");
             }
             msgError.append("- ").append(context.getString(R.string.msg_passwords_are_difrent));
         }

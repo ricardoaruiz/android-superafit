@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Superafit</string>
+    <string name="email">Email</string>
+    <string name="password">Senha</string>
+    <string name="password_confirmation">Confirme a senha</string>
     <string name="wod">Treino</string>
     <string name="schedules">Horários</string>
     <string name="messages">Comunicados</string>
@@ -13,7 +16,7 @@
     <string name="loading">Carregando...</string>
     <string name="tentar_novamente">Tentar novamente</string>
 
-    <string name="msg_required_login">O login deve ser informado.</string>
+    <string name="msg_invalid_email_login">Login inválido ou não informado. Informe um email válido.</string>
     <string name="msg_required_password">A senha deve ser informada com 6 caracteres.</string>
     <string name="msg_passwords_are_difrent">As senhas informadas são diferentes.</string>
     <string name="msg_required_confirm_password">A confirmação de senha deve ser informada com 6 caracteres.</string>
@@ -25,7 +28,5 @@
     <string name="msg_wod_not_found">O treino de hoje ainda não foi publicado.</string>
     <string name="msg_service_unavailable">Serviço indisponível, tente mais tarde.</string>
     <string name="msg_remote_error">"Ocorreu um problema ao obter as informações!\nVerifique sua conexão com a internet e tente novamente."</string>
-
-
 
 </resources>
