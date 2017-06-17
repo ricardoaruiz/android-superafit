@@ -1,4 +1,7 @@
 <resources>
+    <!-- Facebook ID -->
+    <string name="facebook_app_id">1759637414326452</string>
+
     <string name="app_name">Superafit</string>
     <string name="email">Email</string>
     <string name="password">Senha</string>

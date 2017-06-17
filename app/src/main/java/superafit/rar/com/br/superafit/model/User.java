@@ -32,6 +32,12 @@ public class User implements Serializable {
         this.password = password;
     }
 
+    public User(String login, String password, String confirmPassword) {
+        this.login = login;
+        this.password = password;
+        this.confirmPassword = confirmPassword;
+    }
+
     public String getId() {
         return id;
     }

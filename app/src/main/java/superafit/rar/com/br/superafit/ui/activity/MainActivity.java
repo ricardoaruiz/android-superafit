@@ -12,6 +12,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.facebook.login.LoginManager;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -60,7 +62,10 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.common_menu_sair :
                 loginController.logoff();
+                LoginManager.getInstance().logOut();
+
                 final Intent loginActivity = new Intent(this, LoginActivity.class);
+                loginActivity.putExtra("logoff",true);
                 startActivity(loginActivity);
                 finish();
             case R.id.common_menu_atualizar:

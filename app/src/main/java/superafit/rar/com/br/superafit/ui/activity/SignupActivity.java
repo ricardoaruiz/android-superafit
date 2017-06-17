@@ -31,8 +31,6 @@ public class SignupActivity extends FullscreenActivity {
     private static final String TAG = "SignupActivity";
 
     private SignupController signupController;
-    private LoginRepository loginRepository;
-    private DeviceController deviceController;
 
     private EditText editLogin;
     private EditText editPassword;
@@ -48,8 +46,6 @@ public class SignupActivity extends FullscreenActivity {
         setContentView(R.layout.activity_signup);
 
         this.signupController = new SignupController(this);
-        this.loginRepository = new LoginRepository(this);
-        this.deviceController = new DeviceController(this);
 
         Button btnOk = (Button) findViewById(R.id.signup_activity_btn_confirm);
         btnOk.setOnClickListener(btnOkClick);
@@ -73,8 +69,6 @@ public class SignupActivity extends FullscreenActivity {
     public void onCreateUserResponseEvent(CreateUserResponseEvent event) {
         if(event.hasData()) {
             retired = false;
-            loginRepository.login(getUser(event.getData().getUserId()));
-            deviceController.syncronize();
 
             final Intent mainActivity = new Intent(SignupActivity.this, MainActivity.class);
             startActivity(mainActivity);

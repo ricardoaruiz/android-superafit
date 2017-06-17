@@ -30,14 +30,21 @@ public class LoginController {
 
     private LoginRepository loginRepository;
 
+    private DeviceController deviceController;
+
     public LoginController(Context context) {
         this.context = context;
         this.loginRepository = new LoginRepository(context);
+        this.deviceController = new DeviceController(context);
     }
 
     public void doLogin(User user) {
+        doLogin(user, false);
+    }
+
+    public void doLogin(User user, boolean facebook) {
         validateLogin(user);
-        callLoginApi(user);
+        callLoginApi(user, facebook);
     }
 
     public void logoff() {
@@ -64,6 +71,10 @@ public class LoginController {
     }
 
     private void callLoginApi(final User user) {
+        callLoginApi(user, false);
+    }
+
+    private void callLoginApi(final User user, final boolean facebook) {
 
         Call<LoginResponse> loginResponseCall = ServiceFactory.getInstance().getLoginService().doLogin(
                 getLoginRequest(user));
@@ -74,7 +85,11 @@ public class LoginController {
                 switch (response.code()) {
                     case HttpURLConnection.HTTP_UNAUTHORIZED:
                         Log.e("doLogin", "onResponse: " + context.getString(R.string.msg_invalid_login));
-                        EventBus.getDefault().post(new LoginResponseEvent(context.getString(R.string.msg_invalid_login)));
+                        if(!facebook) {
+                            EventBus.getDefault().post(new LoginResponseEvent(context.getString(R.string.msg_invalid_login)));
+                        } else {
+                            new SignupController(context).doSignup(user, true);
+                        }
                         break;
                     case HttpURLConnection.HTTP_UNAVAILABLE:
                         Log.e("doLogin", "onResponse: " + context.getString(R.string.msg_service_unavailable));
@@ -84,7 +99,9 @@ public class LoginController {
                         Log.i("doLogin", "onResponse: sucesso");
                         user.setId(response.body().getUserId());
                         loginRepository.login(user);
+                        deviceController.syncronize();
                         EventBus.getDefault().post(new LoginResponseEvent(response.body()));
+                        break;
                 }
             }
 

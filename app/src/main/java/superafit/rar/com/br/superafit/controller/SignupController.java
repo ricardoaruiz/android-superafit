@@ -13,8 +13,10 @@ import retrofit2.Response;
 import superafit.rar.com.br.superafit.R;
 import superafit.rar.com.br.superafit.event.CreateUserFailureEvent;
 import superafit.rar.com.br.superafit.event.CreateUserResponseEvent;
+import superafit.rar.com.br.superafit.event.LoginResponseEvent;
 import superafit.rar.com.br.superafit.exception.InvalidSignupException;
 import superafit.rar.com.br.superafit.model.User;
+import superafit.rar.com.br.superafit.repository.LoginRepository;
 import superafit.rar.com.br.superafit.service.ServiceFactory;
 import superafit.rar.com.br.superafit.service.model.request.CreateUserRequest;
 import superafit.rar.com.br.superafit.service.model.response.CreateUserResponse;
@@ -28,11 +30,21 @@ public class SignupController {
 
     private Context context;
 
+    private LoginRepository loginRepository;
+
+    private DeviceController deviceController;
+
     public SignupController(Context context) {
         this.context = context;
+        this.loginRepository = new LoginRepository(context);
+        this.deviceController = new DeviceController(context);
     }
 
     public void doSignup(final User user) {
+        doSignup(user, false);
+    }
+
+    public void doSignup(final User user, final boolean facebook) {
         validateSignupData(user);
         Call<CreateUserResponse> createUserResponseCall = ServiceFactory.getInstance()
                 .getUserService().create(getCreateUserRequest(user));
@@ -43,12 +55,20 @@ public class SignupController {
                 switch (response.code()) {
                     case HttpURLConnection.HTTP_UNAVAILABLE:
                         Log.e("doSignup", "onResponse: " + context.getString(R.string.msg_service_unavailable));
-                        EventBus.getDefault().post(new CreateUserResponseEvent(context.getString(R.string.msg_service_unavailable), true));
+                        if(!facebook) {
+                            EventBus.getDefault().post(new CreateUserResponseEvent(context.getString(R.string.msg_service_unavailable), true));
+                        } else {
+                            EventBus.getDefault().post(new LoginResponseEvent(context.getString(R.string.msg_service_unavailable), true));
+                        }
                         break;
                     case 422:
                         Log.e("doSignup", "onResponse: Validações de criação de usuário.");
                         EventBus.getDefault().post(new CreateUserResponseEvent(ErrorUtils.parseError(response.errorBody())));
+                        break;
                     default:
+                        user.setId(response.body().getUserId());
+                        loginRepository.login(user);
+                        deviceController.syncronize();
                         EventBus.getDefault().post(new CreateUserResponseEvent(response.body()));
                         break;
                 }
