@@ -6,6 +6,7 @@ package superafit.rar.com.br.superafit.service;
 
 public interface ServiceConstants {
 
+    
     /**
      * URL base para acesso as apis heroku
      */
