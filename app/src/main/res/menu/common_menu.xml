@@ -8,10 +8,4 @@
         android:title="Atualizar"
         app:showAsAction="always"/>
 
-    <item
-        android:id="@+id/common_menu_sair"
-        android:icon="@drawable/ic_logout_branco"
-        android:title="Sair"
-        app:showAsAction="always"/>
-
 </menu>

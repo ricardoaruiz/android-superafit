@@ -58,11 +58,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-            case R.id.common_menu_sair :
-                loginController.logoff();
-                final Intent loginActivity = new Intent(this, LoginActivity.class);
-                startActivity(loginActivity);
-                finish();
             case R.id.common_menu_atualizar:
                 ((LoadableFragment) fragments.get(tabs.getSelectedTabPosition())).forceRemoteLoad();
                 break;

@@ -5,12 +5,14 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import superafit.rar.com.br.superafit.R;
+import superafit.rar.com.br.superafit.controller.DeviceController;
 import superafit.rar.com.br.superafit.firebase.FirebaseManagerDataNotification;
-import superafit.rar.com.br.superafit.repository.LoginRepository;
 
 public class SplashActivity extends FullscreenActivity {
 
     private FirebaseManagerDataNotification firebaseManagerDataNotification;
+
+    private DeviceController deviceController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,8 +20,10 @@ public class SplashActivity extends FullscreenActivity {
         setContentView(R.layout.activity_splash);
 
         firebaseManagerDataNotification = new FirebaseManagerDataNotification(this);
-        manageFcmNotifications();
+        deviceController = new DeviceController(this);
 
+        manageFcmNotifications();
+        deviceController.syncronize();
         callNextActivity();
     }
 
@@ -30,17 +34,9 @@ public class SplashActivity extends FullscreenActivity {
     private void callNextActivity() {
         new Handler().postDelayed(new Runnable(){
 
-            final LoginRepository loginRepository = new LoginRepository(SplashActivity.this);
-
             @Override
             public void run() {
-                final Intent nextActivity;
-
-                if(!loginRepository.isLogged()) {
-                    nextActivity = new Intent(SplashActivity.this, LoginActivity.class);
-                } else {
-                    nextActivity = new Intent(SplashActivity.this, MainActivity.class);
-                }
+                final Intent nextActivity = new Intent(SplashActivity.this, MainActivity.class);
                 startActivity(nextActivity);
                 finish();
             }

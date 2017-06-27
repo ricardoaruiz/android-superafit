@@ -74,7 +74,7 @@ public class SignupActivity extends FullscreenActivity {
         if(event.hasData()) {
             retired = false;
             loginRepository.login(getUser(event.getData().getUserId()));
-            deviceController.syncronize();
+            //deviceController.syncronize();
 
             final Intent mainActivity = new Intent(SignupActivity.this, MainActivity.class);
             startActivity(mainActivity);

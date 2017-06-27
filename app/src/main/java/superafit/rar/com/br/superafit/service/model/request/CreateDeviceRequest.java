@@ -10,20 +10,9 @@ import java.io.Serializable;
 
 public class CreateDeviceRequest implements Serializable {
 
-    private static final long serialVersionUID = 8806273965597859910L;
-
-    @JsonProperty("user_id")
-    private String userId;
+    private static final long serialVersionUID = 6358530212444211191L;
 
     private String token;
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
 
     public String getToken() {
         return token;

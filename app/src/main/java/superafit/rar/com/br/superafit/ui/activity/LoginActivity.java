@@ -85,7 +85,7 @@ public class LoginActivity extends FullscreenActivity {
             }
         } else {
             retried = false;
-            deviceController.syncronize();
+            //deviceController.syncronize();
             final Intent mainActivity = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(mainActivity);
             finish();

@@ -40,43 +40,43 @@ public class DeviceController {
         return deviceRepository.getDevice();
     }
 
-    public void save(Device device) {
+    public void syncronize(final Device device) {
         deviceRepository.save(device);
+        callSync(device);
     }
 
     public void syncronize() {
-        final Device device = getDevice();
-        if(!device.isSyncronized()) {
+        final Device device = deviceRepository.getDevice();
 
-            Call<Void> deviceSyncCall = ServiceFactory.getInstance().getDeviceService().create(getCreateDeviceRequest(device));
-
-            deviceSyncCall.enqueue(new Callback<Void>() {
-                @Override
-                public void onResponse(Call<Void> call, Response<Void> response) {
-                    if(response.code() == HttpURLConnection.HTTP_CREATED) {
-                        device.syncronized();
-                        deviceRepository.save(device);
-                    } else {
-                        Log.e(TAG, "onFailure: Erro ao sincronizar o token do device - HTTP_Code: " + response.code() );
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<Void> call, Throwable t) {
-                    Log.e(TAG, "onFailure: Erro ao sincronizar o token do device: " + t.getMessage() );
-                }
-            });
-
+        if(device != null && !device.isSyncronized()) {
+            callSync(device);
         }
     }
 
+    private void callSync(final Device device) {
+        Call<Void> deviceSyncCall = ServiceFactory.getInstance().getDeviceService().create(getCreateDeviceRequest(device));
+
+        deviceSyncCall.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.code() == HttpURLConnection.HTTP_CREATED) {
+                    device.syncronized();
+                    deviceRepository.save(device);
+                } else {
+                    Log.e(TAG, "onFailure: Erro ao sincronizar o token do device - HTTP_Code: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.e(TAG, "onFailure: Erro ao sincronizar o token do device: " + t.getMessage());
+            }
+        });
+    }
+
     private CreateDeviceRequest getCreateDeviceRequest(Device device) {
-
-        User user = loginRepository.getUserLogged();
-
         CreateDeviceRequest request = new CreateDeviceRequest();
         request.setToken(device.getToken());
-        request.setUserId(user.getId());
         return request;
     }
 }

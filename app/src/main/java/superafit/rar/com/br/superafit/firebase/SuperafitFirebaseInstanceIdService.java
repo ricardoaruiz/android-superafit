@@ -26,7 +26,7 @@ public class SuperafitFirebaseInstanceIdService extends FirebaseInstanceIdServic
 
     private void sendRegistrationToServer(String refreshedToken) {
         Log.i(TAG, "sendRegistrationToServer: salvando token gerado.");
-        new DeviceController(getBaseContext()).save(getDevice(refreshedToken));
+        new DeviceController(getBaseContext()).syncronize(getDevice(refreshedToken));
     }
 
     @NonNull
