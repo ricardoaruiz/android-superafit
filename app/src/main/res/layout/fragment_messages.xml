@@ -1,15 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/txtHorarios"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/fragment_message_main"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/messages"
-        android:layout_centerInParent="true"/>
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="5dp"
+            app:cardUseCompatPadding="true">
+
+            <ListView
+                android:id="@+id/fragment_messages_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="@null"/>
+
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+
+    <!-- Generic Message -->
+    <include
+        android:id="@+id/framgent_messages_generic_message"
+        layout="@layout/layout_generic_message"
+        android:visibility="gone"/>
 
 </RelativeLayout>
