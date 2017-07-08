@@ -1,11 +1,14 @@
 package superafit.rar.com.br.superafit.service.model.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 
 /**
  * Created by ralmendro on 03/06/17.
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class MovementResponse implements Serializable {
 
     private static final long serialVersionUID = 552832530182059345L;

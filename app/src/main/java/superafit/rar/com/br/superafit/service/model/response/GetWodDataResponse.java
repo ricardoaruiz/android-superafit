@@ -1,5 +1,7 @@
 package superafit.rar.com.br.superafit.service.model.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -7,6 +9,7 @@ import java.util.List;
  * Created by ralmendro on 6/12/17.
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GetWodDataResponse implements Serializable {
 
     private String date;
