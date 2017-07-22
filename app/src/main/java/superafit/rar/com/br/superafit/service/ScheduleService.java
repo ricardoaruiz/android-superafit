@@ -10,7 +10,7 @@ import superafit.rar.com.br.superafit.service.model.response.ListScheduleRespons
 
 public interface ScheduleService {
 
-    @GET("schedule")
+    @GET("app/schedule")
     Call<ListScheduleResponse> list();
 
 }

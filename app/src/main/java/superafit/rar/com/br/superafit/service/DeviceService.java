@@ -12,7 +12,7 @@ import superafit.rar.com.br.superafit.service.model.request.CreateDeviceRequest;
 
 public interface DeviceService {
 
-    @POST("device")
+    @POST("app/device")
     Call<Void> create(@Body CreateDeviceRequest request);
 
 }

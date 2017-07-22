@@ -13,7 +13,7 @@ import superafit.rar.com.br.superafit.service.model.response.GetWodResponse;
 
 public interface WodService {
 
-    @GET("day-training")
+    @GET("app/day-training")
     Call<GetWodResponse> getWod(@Query("date") String data);
 
 }
