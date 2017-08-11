@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -39,15 +39,44 @@
                         app:srcCompat="@drawable/logo" />
 
                     <TextView
+                        android:id="@+id/textEndereco"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Rua Santo de Faveri, 724\nArtur Nogueira\n(19) 99998-9700"
-                        android:textSize="18dp"
+                        android:text="Rua Santo de Faveri, 724\nArtur Nogueira"
+                        android:textSize="15dp"
                         android:textColor="@color/black"
                         android:layout_marginTop="12dp"
-                        android:layout_marginLeft="10dp"/>
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@+id/imageView"/>
 
-                </LinearLayout>
+                    <TextView
+                        android:id="@+id/textTelefoneFixo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="(19) 3827-1917"
+                        android:textSize="15dp"
+                        android:textColor="@color/black"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@+id/imageView"
+                        android:layout_below="@+id/textEndereco"/>
+
+                    <TextView
+                        android:id="@+id/textTelefoneCelular"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="(19) 99998-9700"
+                        android:textSize="15dp"
+                        android:textColor="@color/black"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@+id/imageView"
+                        android:layout_below="@+id/textTelefoneFixo"/>
+
+
+
+                </RelativeLayout>
 
             </LinearLayout>
 

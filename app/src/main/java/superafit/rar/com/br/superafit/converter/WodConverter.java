@@ -62,17 +62,19 @@ public class WodConverter implements Converter<Wod, GetWodResponse> {
         GetWodResponse toReturn = new GetWodResponse();
         List<GetWodDataResponse> wodDataResponseList = new ArrayList<>();
 
-        for(WodItem wodItem : source.getData()) {
-            GetWodDataResponse item = new GetWodDataResponse();
-            item.setType(wodItem.getType());
-            item.setRound(wodItem.getRound());
-            item.setDate(wodItem.getDate());
-            item.setDescription(wodItem.getDescription());
-            item.setMovements(MovementConverter.getInstance().fromModel(wodItem.getMovements()));
-            wodDataResponseList.add(item);
-        }
+        if(source != null && source.getData() != null && !source.getData().isEmpty()) {
+            for (WodItem wodItem : source.getData()) {
+                GetWodDataResponse item = new GetWodDataResponse();
+                item.setType(wodItem.getType());
+                item.setRound(wodItem.getRound());
+                item.setDate(wodItem.getDate());
+                item.setDescription(wodItem.getDescription());
+                item.setMovements(MovementConverter.getInstance().fromModel(wodItem.getMovements()));
+                wodDataResponseList.add(item);
+            }
 
-        toReturn.setData(wodDataResponseList);
+            toReturn.setData(wodDataResponseList);
+        }
         return toReturn;
     }
 

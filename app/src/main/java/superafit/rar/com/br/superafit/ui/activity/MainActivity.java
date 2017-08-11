@@ -44,7 +44,8 @@ public class MainActivity extends AppCompatActivity {
 
         tabs = (TabLayout) findViewById(R.id.view_pager_tab_layout);
         ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
-        viewPager.setAdapter(new FragmetAdapter(getSupportFragmentManager(), getFragments(), getFragmentNames()));
+        viewPager.setAdapter(new FragmetAdapter(getSupportFragmentManager(), getFragments(),
+                getFragmentNames()));
         tabs.setupWithViewPager(viewPager);
     }
 
@@ -69,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
     @NonNull
     private List<String> getFragmentNames() {
         List<String> fragmentNames;
-        fragmentNames = Arrays.asList(getString(R.string.wod), getString(R.string.schedules), getString(R.string.messages));
+        fragmentNames = Arrays.asList(getString(R.string.wod), getString(R.string.schedules)/*, getString(R.string.messages)*/);
         return fragmentNames;
     }
 
@@ -78,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         fragments = new ArrayList<>();
         fragments.add(WodFragment.newInstance());
         fragments.add(SchedulesFragment.newInstance());
-        fragments.add(MessagesFragment.newInstance());
+        //fragments.add(MessagesFragment.newInstance());
         return fragments;
     }
 }

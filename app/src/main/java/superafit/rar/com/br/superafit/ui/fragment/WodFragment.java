@@ -175,7 +175,7 @@ public class WodFragment extends Fragment implements LoadableFragment {
                 new GenericMessageLayout.OnClickTryAgainEvent() {
                     @Override
                     public void onClick() {
-                        load();
+                        forceRemoteLoad();
                     }
                 });
 
@@ -186,7 +186,7 @@ public class WodFragment extends Fragment implements LoadableFragment {
         return new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                load();
+                forceRemoteLoad();
             }
         };
     }

@@ -95,7 +95,7 @@ public class MessagesFragment extends Fragment implements LoadableFragment {
                 new GenericMessageLayout.OnClickTryAgainEvent() {
                     @Override
                     public void onClick() {
-                        load();
+                        forceRemoteLoad();
                     }
                 });
     }

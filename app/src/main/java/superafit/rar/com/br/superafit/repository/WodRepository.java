@@ -57,4 +57,8 @@ public class WodRepository extends BaseSharedPreferenceRepository {
         }
     }
 
+    public void remove() {
+        super.remove(WOD);
+    }
+
 }

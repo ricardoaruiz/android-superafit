@@ -1,5 +1,7 @@
 package superafit.rar.com.br.superafit.ui.fragment;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -8,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -34,6 +37,9 @@ public class SchedulesFragment extends Fragment implements LoadableFragment {
     private ListView list;
     private List<ScheduleResponse> listSchedule;
 
+    private TextView textTelefoneFixo;
+    private TextView textTelefoneCelular;
+
     private View main;
 
     private boolean retried;
@@ -56,6 +62,27 @@ public class SchedulesFragment extends Fragment implements LoadableFragment {
 
         list = (ListView) view.findViewById(R.id.fragment_schedules_list);
         main = view.findViewById(R.id.fragment_schedule_main);
+
+        textTelefoneFixo = (TextView) view.findViewById(R.id.textTelefoneFixo);
+        textTelefoneCelular = (TextView) view.findViewById(R.id.textTelefoneCelular);
+
+        textTelefoneFixo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:" + textTelefoneFixo.getText()));
+                startActivity(intent);
+            }
+        });
+
+        textTelefoneCelular.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:" + textTelefoneCelular.getText()));
+                startActivity(intent);
+            }
+        });
 
         load();
 
@@ -132,7 +159,7 @@ public class SchedulesFragment extends Fragment implements LoadableFragment {
                 new GenericMessageLayout.OnClickTryAgainEvent() {
                     @Override
                     public void onClick() {
-                        load();
+                        forceRemoteLoad();
                     }
                 });
     }

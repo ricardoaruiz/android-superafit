@@ -85,6 +85,7 @@ public class WodController {
                 switch (response.code()) {
                     case HttpURLConnection.HTTP_NO_CONTENT:
                         Log.i("getRemoteWod", "onResponse: Não foram encontrados dados.");
+                        wodRepository.remove();
                         EventBus.getDefault().post(new GetWodResponseEvent(context.getString(R.string.msg_wod_not_found)));
                         break;
                     case HttpURLConnection.HTTP_UNAVAILABLE:
