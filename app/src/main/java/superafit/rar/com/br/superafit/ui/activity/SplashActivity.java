@@ -6,6 +6,7 @@ import android.os.Handler;
 
 import superafit.rar.com.br.superafit.R;
 import superafit.rar.com.br.superafit.controller.DeviceController;
+import superafit.rar.com.br.superafit.controller.WodController;
 import superafit.rar.com.br.superafit.firebase.FirebaseManagerDataNotification;
 
 public class SplashActivity extends FullscreenActivity {
@@ -21,6 +22,8 @@ public class SplashActivity extends FullscreenActivity {
 
         firebaseManagerDataNotification = new FirebaseManagerDataNotification(this);
         deviceController = new DeviceController(this);
+
+        WodController.getInstance(this).removeLocalWod();
 
         manageFcmNotifications();
         deviceController.syncronize();

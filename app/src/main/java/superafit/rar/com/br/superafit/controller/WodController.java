@@ -53,10 +53,7 @@ public class WodController {
         if(forceRemote) {
             getRemoteWod();
         } else {
-            Date today = DateUtil.toDate(DateUtil.fromDate(new Date(), DateUtil.Format.DIA_MES_ANO), DateUtil.Format.DIA_MES_ANO);
-            Date lastUpdate = wodRepository.getLastUpdate();
-
-            if (lastUpdate != null && lastUpdate.equals(today)) {
+            if (isLastUpdateIsToday()) {
                 getLocalWod();
             } else {
                 getRemoteWod();
@@ -64,8 +61,26 @@ public class WodController {
         }
     }
 
+    public void removeLocalWod() {
+        if (!isLastUpdateIsToday()) {
+            wodRepository.remove();
+        }
+    }
+
+    private boolean isLastUpdateIsToday() {
+        Date today = DateUtil.toDate(DateUtil.fromDate(new Date(), DateUtil.Format.DIA_MES_ANO),
+                DateUtil.Format.DIA_MES_ANO);
+        Date lastUpdate = wodRepository.getLastUpdate();
+
+        if (lastUpdate != null && lastUpdate.equals(today)) {
+            return true;
+        }
+        return false;
+    }
+
     private void getLocalWod() {
-        final GetWodResponse wodResponse = WodConverter.getInstance().fromModel(wodRepository.getWod());
+        final GetWodResponse wodResponse = WodConverter.getInstance().fromModel(
+                wodRepository.getWod());
 
         new Handler().postDelayed(new Runnable() {
             @Override

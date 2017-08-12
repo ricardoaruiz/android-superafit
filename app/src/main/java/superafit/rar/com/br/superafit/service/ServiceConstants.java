@@ -6,7 +6,12 @@ package superafit.rar.com.br.superafit.service;
 
 public interface ServiceConstants {
 
-    
+
+    /**
+     * URL base para acesso as apis heroku Producao
+     */
+    public static final String API_BASE_URL = "https://superafit-crossfit-api.herokuapp.com/";
+
     /**
      * URL base para acesso as apis heroku
      */
@@ -15,7 +20,7 @@ public interface ServiceConstants {
     /**
      * URL base para acesso as apis local
      */
-    public static final String API_BASE_URL = "http://192.168.0.110:8081/";
+    //public static final String API_BASE_URL = "http://192.168.0.116:8081/";
 
 
 }

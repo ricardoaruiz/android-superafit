@@ -59,6 +59,7 @@ public class WodRepository extends BaseSharedPreferenceRepository {
 
     public void remove() {
         super.remove(WOD);
+        super.remove(LAST_UPDATE);
     }
 
 }
