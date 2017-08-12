@@ -43,7 +43,7 @@ public class ScheduleController {
     }
 
     public void load() {
-        load(false);
+        load(scheduleRepository.isNotificationReceived());
     }
 
     public void load(boolean forceRemote) {
@@ -70,6 +70,7 @@ public class ScheduleController {
         callSchedules.enqueue(new Callback<ListScheduleResponse>() {
             @Override
             public void onResponse(Call<ListScheduleResponse> call, Response<ListScheduleResponse> response) {
+                scheduleRepository.setNotificationReceived(false);
                 switch (response.code()) {
                     case HttpURLConnection.HTTP_NO_CONTENT:
                         Log.i("getRemoteSchedule", "onResponse: Não foram encontrados dados.");

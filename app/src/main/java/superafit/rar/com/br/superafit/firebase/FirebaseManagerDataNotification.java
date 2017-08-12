@@ -71,10 +71,12 @@ public class FirebaseManagerDataNotification {
     public void save(Bundle extras) {
         if(extras != null) {
             if(extras.get(TRAINING) != null) {
-                manageTraining(extras.get(TRAINING).toString());
+                wodRepository.setNotificationReceived(true);
+                //manageTraining(extras.get(TRAINING).toString());
             }
             if(extras.get(SCHEDULE) != null) {
-                manageSchedule(extras.get(SCHEDULE).toString());
+                scheduleRepository.setNotificationReceived(true);
+                //manageSchedule(extras.get(SCHEDULE).toString());
             }
             //TODO outras notificações aqui
         }

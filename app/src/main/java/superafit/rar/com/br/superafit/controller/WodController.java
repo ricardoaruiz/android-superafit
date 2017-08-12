@@ -46,7 +46,7 @@ public class WodController {
     }
 
     public void load() {
-        load(false);
+        load(wodRepository.isNotificationReceived());
     }
 
     public void load(boolean forceRemote) {
@@ -96,7 +96,7 @@ public class WodController {
         getWodCall.enqueue(new Callback<GetWodResponse>() {
             @Override
             public void onResponse(Call<GetWodResponse> call, Response<GetWodResponse> response) {
-
+                wodRepository.setNotificationReceived(false);
                 switch (response.code()) {
                     case HttpURLConnection.HTTP_NO_CONTENT:
                         Log.i("getRemoteWod", "onResponse: Não foram encontrados dados.");

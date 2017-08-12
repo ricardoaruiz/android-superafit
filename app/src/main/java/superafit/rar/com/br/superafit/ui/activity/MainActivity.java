@@ -20,6 +20,8 @@ import superafit.rar.com.br.superafit.R;
 import superafit.rar.com.br.superafit.adapter.FragmetAdapter;
 import superafit.rar.com.br.superafit.controller.LoginController;
 import superafit.rar.com.br.superafit.controller.MainController;
+import superafit.rar.com.br.superafit.repository.ScheduleRepository;
+import superafit.rar.com.br.superafit.repository.WodRepository;
 import superafit.rar.com.br.superafit.ui.fragment.LoadableFragment;
 import superafit.rar.com.br.superafit.ui.fragment.MessagesFragment;
 import superafit.rar.com.br.superafit.ui.fragment.SchedulesFragment;
@@ -47,6 +49,24 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(new FragmetAdapter(getSupportFragmentManager(), getFragments(),
                 getFragmentNames()));
         tabs.setupWithViewPager(viewPager);
+
+        setCurrentTab(viewPager);
+
+    }
+
+    /**
+     * Posiciona a tab correta ao carregar a tela em função da mensagem recebida do FCM
+     * @param viewPager
+     */
+    private void setCurrentTab(ViewPager viewPager) {
+        WodRepository wodRepository = new WodRepository(this);
+        ScheduleRepository scheduleRepository = new ScheduleRepository(this);
+
+        if (wodRepository.isNotificationReceived()) {
+            viewPager.setCurrentItem(0);
+        } else if (scheduleRepository.isNotificationReceived()) {
+            viewPager.setCurrentItem(1);
+        }
     }
 
     @Override

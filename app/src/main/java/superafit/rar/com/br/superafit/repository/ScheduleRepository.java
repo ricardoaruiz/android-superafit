@@ -23,6 +23,7 @@ import superafit.rar.com.br.superafit.uitls.JsonUtil;
 public class ScheduleRepository extends BaseSharedPreferenceRepository {
 
     private static final String SCHEDULES = "SCHEDULES";
+    private static final String NOTIFICATION_RECEIVED = "NOTIFICATION_RECEIVED";
 
     private Context context;
 
@@ -52,4 +53,12 @@ public class ScheduleRepository extends BaseSharedPreferenceRepository {
         }
         return null;
     }
+
+    public void setNotificationReceived(Boolean notificationReceived) {
+        save(notificationReceived.toString(), NOTIFICATION_RECEIVED);
+    }
+
+    public boolean isNotificationReceived() {
+        return Boolean.valueOf(getValue(NOTIFICATION_RECEIVED, "false"));
+    }    
 }

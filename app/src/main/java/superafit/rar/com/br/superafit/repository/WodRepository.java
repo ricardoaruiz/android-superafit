@@ -16,8 +16,8 @@ import superafit.rar.com.br.superafit.uitls.JsonUtil;
 public class WodRepository extends BaseSharedPreferenceRepository {
 
     private static final String LAST_UPDATE = "LAST_UPDATE";
-
     private static final String WOD = "WOD";
+    private static final String NOTIFICATION_RECEIVED = "NOTIFICATION_RECEIVED";
 
     private Context context;
 
@@ -62,4 +62,11 @@ public class WodRepository extends BaseSharedPreferenceRepository {
         super.remove(LAST_UPDATE);
     }
 
+    public void setNotificationReceived(Boolean notificationReceived) {
+        save(notificationReceived.toString(), NOTIFICATION_RECEIVED);
+    }
+
+    public boolean isNotificationReceived() {
+        return Boolean.valueOf(getValue(NOTIFICATION_RECEIVED, "false"));
+    }
 }
