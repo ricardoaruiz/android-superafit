@@ -42,7 +42,7 @@ public class ListScheduleResponseEvent {
     }
 
     public boolean hasData() {
-        return this.data != null && !this.data.getSchedules().isEmpty();
+        return this.data != null && this.data.getSchedules() != null && !this.data.getSchedules().isEmpty();
     }
 
     public boolean isUnavailable() {

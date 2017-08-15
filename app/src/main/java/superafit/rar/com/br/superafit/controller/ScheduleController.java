@@ -74,6 +74,7 @@ public class ScheduleController {
                 switch (response.code()) {
                     case HttpURLConnection.HTTP_NO_CONTENT:
                         Log.i("getRemoteSchedule", "onResponse: Não foram encontrados dados.");
+                        scheduleRepository.remove();
                         EventBus.getDefault().post(new ListScheduleResponseEvent(context.getString(R.string.msg_schedule_not_found)));
                         break;
                     case HttpURLConnection.HTTP_UNAVAILABLE:

@@ -54,11 +54,15 @@ public class ScheduleRepository extends BaseSharedPreferenceRepository {
         return null;
     }
 
+    public void remove() {
+        super.remove(SCHEDULES);
+    }
+
     public void setNotificationReceived(Boolean notificationReceived) {
         save(notificationReceived.toString(), NOTIFICATION_RECEIVED);
     }
 
     public boolean isNotificationReceived() {
         return Boolean.valueOf(getValue(NOTIFICATION_RECEIVED, "false"));
-    }    
+    }
 }
