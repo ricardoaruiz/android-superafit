@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -55,11 +57,17 @@ public class WodMovementListItemAdapter extends BaseAdapter {
 
             TextView textType = (TextView) view.findViewById(R.id.fragment_wod_list_movement_header_type);
             TextView textDescription = (TextView) view.findViewById(R.id.fragment_wod_list_movement_header_description);
+            RelativeLayout itemWodListHeader = (RelativeLayout) view.findViewById(R.id.relative_layout_wod_item_header);
 
             textType.setText(item.getTrainingType() + " - " + item.getTrainingRound() + " rounds");
-            if(item.getTrainingDescription() != null) {
+            if(item.getTrainingDescription() != null && !item.getTrainingDescription().isEmpty()) {
                 textDescription.setText(item.getTrainingDescription());
             } else {
+                final float scale = context.getResources().getDisplayMetrics().density;
+                int pixels = (int) (65 * scale + 0.5f);
+
+                itemWodListHeader.getLayoutParams().height = pixels;
+                itemWodListHeader.requestLayout();
                 textDescription.setVisibility(View.GONE);
             }
 

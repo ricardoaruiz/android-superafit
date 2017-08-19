@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/relative_layout_wod_item_header"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
 
     <View
+        android:id="@+id/separator"
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="3dp"
         android:background="#c0c0c0"/>
 
     <LinearLayout
+        android:id="@+id/inside_layout"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingTop="5dp">
+        android:layout_below="@id/separator">
 
         <ImageView
             android:id="@+id/imageView"
@@ -25,41 +26,32 @@
             android:layout_height="60dp"
             app:srcCompat="@drawable/ic_alteres_preto"/>
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/fragment_wod_list_movement_header_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/fragment_wod_list_movement_header_type"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:text="Aquecimento - 3 rounds"
-                android:textSize="25dp"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:paddingLeft="10dp"
-                android:layout_marginTop="5dp"/>
-
-            <TextView
-                android:id="@+id/fragment_wod_list_movement_header_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:text="Description"
-                android:textSize="18dp"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:paddingLeft="10dp"
-                android:layout_marginTop="5dp"/>
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="2dp"
-            android:background="#100101"/>
+            android:gravity="center_vertical"
+            android:text="Aquecimento - 3 rounds"
+            android:textSize="21dp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:paddingLeft="10dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="18dp"/>
 
     </LinearLayout>
-</LinearLayout>
+
+    <TextView
+        android:id="@+id/fragment_wod_list_movement_header_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:text="Description teste sksksk sjshkasjkjdfhkjshdkfhskfsdhfkshfskfhsksh kjdshf ksdjfh skdhfsk djfhsk fkjsdhf ksjfskdfhdkfhsdkf skjf hsd kfhsdkfhskfh"
+        android:textSize="18dp"
+        android:textColor="@color/black"
+        android:paddingLeft="10dp"
+        android:layout_below="@id/inside_layout"
+        android:layout_marginRight="12dp"
+        android:paddingBottom="5dp"/>
+
+</RelativeLayout>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Superafit</string>
+    <string name="app_name">SuperaFit</string>
     <string name="email">Email</string>
     <string name="password">Senha</string>
     <string name="password_confirmation">Confirme a senha</string>

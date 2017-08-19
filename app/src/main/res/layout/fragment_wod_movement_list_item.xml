@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:paddingLeft="62dp">
+    android:paddingLeft="22dp">
 
     <TextView
         android:id="@+id/fragment_wod_list_movement_rep"
@@ -25,6 +25,7 @@
         android:text="Movement"
         android:textSize="15dp"
         android:textColor="@color/black"
+        android:layout_marginRight="12dp"
         android:paddingTop="4dp"
-        android:paddingBottom="4dp"/>
+        android:paddingBottom="8dp"/>
 </LinearLayout>
