@@ -4,7 +4,7 @@ package superafit.rar.com.br.superafit.ui.model;
  * Created by ralmendro on 6/12/17.
  */
 
-public class WodItemList {
+public class WodItem {
 
     private boolean header;
 

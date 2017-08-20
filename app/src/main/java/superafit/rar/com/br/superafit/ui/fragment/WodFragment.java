@@ -6,6 +6,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import superafit.rar.com.br.superafit.R;
-import superafit.rar.com.br.superafit.adapter.WodMovementListItemAdapter;
+import superafit.rar.com.br.superafit.adapter.RecyclerViewWodAdapter;
 import superafit.rar.com.br.superafit.controller.WodController;
 import superafit.rar.com.br.superafit.event.GetWodFailureEvent;
 import superafit.rar.com.br.superafit.event.GetWodResponseEvent;
@@ -28,7 +30,8 @@ import superafit.rar.com.br.superafit.service.model.response.GetWodDataResponse;
 import superafit.rar.com.br.superafit.service.model.response.GetWodResponse;
 import superafit.rar.com.br.superafit.service.model.response.MovementResponse;
 import superafit.rar.com.br.superafit.ui.layout.GenericMessageLayout;
-import superafit.rar.com.br.superafit.ui.model.WodItemList;
+import superafit.rar.com.br.superafit.ui.model.WodItem;
+import superafit.rar.com.br.superafit.ui.model.WodItemView;
 
 /**
  * Created by ralmendro on 5/19/17.
@@ -43,6 +46,7 @@ public class WodFragment extends Fragment implements LoadableFragment {
 
     private TextView textDate;
     private ListView listMovements;
+    private RecyclerView rcWodList;
 
     private GetWodResponse wod;
 
@@ -60,13 +64,16 @@ public class WodFragment extends Fragment implements LoadableFragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_wod, container, false);
         genericMessage = new GenericMessageLayout(view, R.id.framgent_wod_generic_message);
 
         textDate = (TextView) view.findViewById(R.id.fragment_wod_date);
-        listMovements = (ListView) view.findViewById(R.id.fragment_wod_list_movement);
         main = view.findViewById(R.id.fragment_wod_main);
+
+        rcWodList = (RecyclerView) view.findViewById(R.id.rv_wod_list);
+        rcWodList.setLayoutManager(new LinearLayoutManager(getContext()));
 
         load();
 
@@ -113,41 +120,43 @@ public class WodFragment extends Fragment implements LoadableFragment {
     }
 
     private void fillView() {
-        final List<WodItemList> trainingList = getWodList();
+        final List<WodItemView> trainingList = getWodList();
 
         if(trainingList != null && !trainingList.isEmpty()) {
-            textDate.setText(trainingList.get(0).getTrainingDate());
-            listMovements.setAdapter(new WodMovementListItemAdapter(getContext(), trainingList));
+            RecyclerViewWodAdapter adapter = new RecyclerViewWodAdapter(getContext(), trainingList);
+            rcWodList.setAdapter(adapter);
             showMain();
         } else {
             showMessageWithRetry(getString(R.string.msg_wod_not_found));
         }
     }
-
-    private List<WodItemList> getWodList() {
-        List<WodItemList> toReturn = null;
+    private List<WodItemView> getWodList() {
+        List<WodItemView> toReturn = null;
         if(wod != null && wod.getData() != null) {
             toReturn = new ArrayList<>();
             for(GetWodDataResponse data : wod.getData()) {
 
-                WodItemList header = new WodItemList();
+                WodItemView wodItemView = new WodItemView();
+
+                WodItem header = new WodItem();
                 header.setHeader(true);
                 header.setTrainingDate(data.getDate());
                 header.setTrainingDescription(data.getDescription());
                 header.setTrainingRound(data.getRound());
                 header.setTrainingType(data.getType());
-                toReturn.add(header);
+                wodItemView.setHeader(header);
 
                 for(MovementResponse m : data.getMovements()) {
-                    WodItemList item = new WodItemList();
+                    WodItem item = new WodItem();
                     item.setHeader(false);
                     item.setMovementName(m.getName());
                     item.setMovementDescription(m.getDescription());
                     item.setMovementTranslate(m.getTranslate());
                     item.setMovementQtRep(m.getQtRep());
-                    toReturn.add(item);
+                    wodItemView.getMovements().add(item);
                 }
 
+                toReturn.add(wodItemView);
             }
         }
         return toReturn;

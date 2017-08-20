@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +21,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.List;
 
 import superafit.rar.com.br.superafit.R;
-import superafit.rar.com.br.superafit.adapter.ScheduleListItemAdapter;
+import superafit.rar.com.br.superafit.adapter.RecyclerViewScheduleAdapter;
 import superafit.rar.com.br.superafit.controller.ScheduleController;
 import superafit.rar.com.br.superafit.event.ListScheduleFailureEvent;
 import superafit.rar.com.br.superafit.event.ListScheduleResponseEvent;
@@ -36,6 +38,7 @@ public class SchedulesFragment extends Fragment implements LoadableFragment {
 
     private ListView list;
     private List<ScheduleResponse> listSchedule;
+    private RecyclerView rcScheduleList;
 
     private TextView textTelefoneFixo;
     private TextView textTelefoneCelular;
@@ -56,11 +59,13 @@ public class SchedulesFragment extends Fragment implements LoadableFragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_schedules, container, false);
         genericMessage = new GenericMessageLayout(view, R.id.framgent_schedule_generic_message);
 
-        list = (ListView) view.findViewById(R.id.fragment_schedules_list);
+        //list = (ListView) view.findViewById(R.id.fragment_schedules_list);
         main = view.findViewById(R.id.fragment_schedule_main);
 
         textTelefoneFixo = (TextView) view.findViewById(R.id.textTelefoneFixo);
@@ -84,6 +89,9 @@ public class SchedulesFragment extends Fragment implements LoadableFragment {
             }
         });
 
+        rcScheduleList = (RecyclerView) view.findViewById(R.id.rv_schedule_list);
+        rcScheduleList.setLayoutManager(new LinearLayoutManager(getContext()));
+
         load();
 
         return view;
@@ -94,7 +102,7 @@ public class SchedulesFragment extends Fragment implements LoadableFragment {
         if(event.hasData()) {
             retried = false;
             listSchedule = event.hasData() ? event.getData().getSchedules() : null;
-            fillList();
+            fillView();
         } else {
             if(event.isUnavailable() && !retried) {
                 new Handler().postDelayed(new Runnable() {
@@ -128,9 +136,12 @@ public class SchedulesFragment extends Fragment implements LoadableFragment {
         ScheduleController.getInstance(getContext()).load(true);
     }
 
-    private void fillList() {
+    private void fillView() {
         if(listSchedule != null && !listSchedule.isEmpty()) {
-            list.setAdapter(new ScheduleListItemAdapter(this.getContext(), listSchedule));
+            RecyclerViewScheduleAdapter adapter = new RecyclerViewScheduleAdapter(getContext(),
+                    listSchedule);
+
+            rcScheduleList.setAdapter(adapter);
             showMain();
         } else {
             showMessageWithRetry(getString(R.string.msg_schedule_not_found));
