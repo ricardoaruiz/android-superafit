@@ -123,6 +123,7 @@ public class WodFragment extends Fragment implements LoadableFragment {
         final List<WodItemView> trainingList = getWodList();
 
         if(trainingList != null && !trainingList.isEmpty()) {
+            textDate.setText(trainingList.get(0).getHeader().getTrainingDate());
             RecyclerViewWodAdapter adapter = new RecyclerViewWodAdapter(getContext(), trainingList);
             rcWodList.setAdapter(adapter);
             showMain();
